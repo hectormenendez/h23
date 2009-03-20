@@ -1,9 +1,9 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 /*
 	todo: handle several domdocuments at the same time
-		  * _dom() : check that the document has valid xml before attempting to load, so we can prevent errors.
+		  * _dom() : check that the document has valid XML before attempting to load, so we can prevent errors.
 */
-class Xml {
+class XML {
 	
 	private static $_PTH;	// The current XML file path
 	private static $_CHR;	// Character set (from config)
@@ -24,10 +24,10 @@ class Xml {
 	
 	/**
 	 *  CREATE OR SET A XML DOCUMENT
-	 *  set a xml file to work with, so it won't be necessary
+	 *  set a XML file to work with, so it won't be necessary
 	 *  to specify it everytime a method is called. 
 	 *  if the requested file doesn't exists, we create it.
-	 *  @param	domdocument || string	The domdocument or filepath of the xml to work
+	 *  @param	domdocument || string	The domdocument or filepath of the XML to work
 	 *  @return	void
 	**/
 	public static function set($objorpath=false){
@@ -37,7 +37,7 @@ class Xml {
 	/**
 	 *  LOAD OR SET A XML DOCUMENT
 	 *  Loads contents of an existent domdocument and/or set it as current
-	 *  This is almost identical to Xml::set. the only diference is that 
+	 *  This is almost identical to XML::set. the only diference is that 
 	 *  this method will check if the specified file/object has contents on it.
 	**/
 	public static function load($objorpath=false){
@@ -53,7 +53,7 @@ class Xml {
 	public static function clear($objorpath=false, $delete=false, $query=false){
 		// physically delete the file if specified
 		if ($delete && is_string($objorpath)) return unlink(self::path($objorpath,false,1));
-		// set the domdocument. and make sure that an xml file is loaded.
+		// set the domdocument. and make sure that an XML file is loaded.
 		self::_checkdom($objorpath,false, true);
 		// if there's a query use it, otherwise use the root element.
 		$obj = $query? self::query($query) : array(self::$_DOM->documentElement);
@@ -65,7 +65,7 @@ class Xml {
 	
 	/**
 	 *  PHYSICALLY DELETE A XML FILE
-	 *  Identical to Xml::core($objorpath, true)
+	 *  Identical to XML::core($objorpath, true)
 	 *  TODO: Add support for physically delete a file, specified by obj and not only by string
 	**/
 	public static function delete($objorpath=false){
@@ -86,7 +86,7 @@ class Xml {
 	
 	/**
 	 *  GET ELEMENT BY ID
-	 *  Returns an element matched by an id. an xml must be set or loaded.
+	 *  Returns an element matched by an id. an XML must be set or loaded.
 	**/
 	public static function get_id($id=false, $objorpath=false, $returnarray=true){
 		return self::_byid('get', $id, $objorpath, $returnarray);
@@ -101,7 +101,7 @@ class Xml {
 	
 	/** 
 	 *  Appends an element.
-	 *  uses the same logic for arrays found in _arraytoxml
+	 *  uses the same logic for arrays found in _arraytoXML
 	*/
 	public static function append($array=false, $objorpath=false, $query=false){
 		// make sure that at least a tagname is being specified in the array
@@ -112,13 +112,13 @@ class Xml {
 		$obj = $query? self::query($query) : array(!self::$_DOM->documentElement? self::$_DOM->createElement('root') : self::$_DOM->documentElement);
 		if (!$obj) return false;
 		foreach ($obj as $node){
-			// if node has a textnode, we set it to an attribute so it doesn't mess up the xml tree
+			// if node has a textnode, we set it to an attribute so it doesn't mess up the XML tree
 			if($node->firstChild instanceof DOMText && !$node->firstChild->isWhitespaceInElementContent()) {
 				$node->setAttribute('value', $node->firstChild->textContent);
 				$node->removeChild($node->firstChild);
 			}
 			// transform the array and append it.
-			$newnode = self::_array2xml(array($array), $node);
+			$newnode = self::_array2XML(array($array), $node);
 			if (!$node->parentNode) self::$_DOM->appendChild($newnode);
 			else $node->parentNode->appendChild($newnode);
 		}
@@ -133,7 +133,7 @@ class Xml {
 	// checks if query has value defined and replace it. if no value defined, returns false.
 	// unless $create is set to true, where the function will force the creation of the value.
 	public static function replace_value($query=false, $value=false, $objorpath=false, $create=false){
-		// set the domdocument. and make sure that an xml file is loaded.
+		// set the domdocument. and make sure that an XML file is loaded.
 		self::_checkdom($objorpath, false, true);
 		$done = false;
 		// check that required arguments are set
@@ -166,14 +166,14 @@ class Xml {
 		return false;
 	}
 	
-	// xml to array
+	// XML to array
 	public static function to_array($objorpath=false, $query='/root/*'){
-		// set domdocument. and make sure that an xml file is loaded.
+		// set domdocument. and make sure that an XML file is loaded.
 		self::_checkdom($objorpath, false, true);
-		return self::_xml2array(self::query($query));
+		return self::_XML2array(self::query($query));
 	}
 
-	// array to xml
+	// array to XML
 	public static function from_array($array, $objorpath=false, $root='root'){
 		if (!is_array($array)) Core::error('ARRTYP','LIBTIT',array(__METHOD__,''));
 		// create or load domdocument.
@@ -181,19 +181,19 @@ class Xml {
 		// create the root element
 		$root = self::$_DOM->createElement($root);
 		// pass the array 
-		self::_array2xml($array, $root);
-		// if xmlfile exists replace the root document
+		self::_array2XML($array, $root);
+		// if XMLfile exists replace the root document
 		if ($oldroot = self::$_DOM->documentElement) self::$_DOM->replaceChild($root, $oldroot);	
 		// otherwise just append the recently created tree
 		else self::$_DOM->appendChild($root);
-		// save the file and return the xml tree
+		// save the file and return the XML tree
 		return self::save(false,false);
 	}
 
 	// remember that if you want to search realitve to a domelement
 	// you must use an array to put the query string and the domelement together
 	public static function query($string, $objorpath=false, $check=true){
-		// set domdocument. and make sure that an xml file is loaded.
+		// set domdocument. and make sure that an XML file is loaded.
 		if($check) self::_checkdom($objorpath, false, true);
 		$relto = false;
 		// if query string is an array in means user is giving an object
@@ -218,11 +218,11 @@ class Xml {
 		// if no path is provided return the currently defined one.
 		if (!$path) return self::$_PTH;
 		// extract the file name
-		$file = substr($path,($pos=strrpos($path,'/'))?$pos+1:0);
+		$file = substr($path,($pos=strrpos($path,_SH))?$pos+1:0);
 		// if an extension is not specified, add it to path
 		if (substr($path,-4)!='.xml') $path.='.xml';
 		// get the working directory
-		$dir  = substr($path,0,strrpos($path,'/')+1);
+		$dir  = substr($path,0,strrpos($path,_SH)+1);
 		// if provided directory doesn't exists use the default one
 		if (!file_exists($dir)) {
 			$path = TXML.$file;
@@ -296,8 +296,8 @@ class Xml {
 		'value' => 'hola mundo' // this is invalid. it will be ignored
 	);
 	**/
-	private static function _array2xml($array, $obj=false, $valid=false){
-		// if we want to enable formatoutput, we must generate valid xml.
+	private static function _array2XML($array, $obj=false, $valid=false){
+		// if we want to enable formatoutput, we must generate valid XML.
 		// so, we must prevent the creation of textcontent elements in the 
 		// same level as element nodes. ej: <element><otherelement />text content</element>
 		// for this, we must prevent the array to have mixed values, 
@@ -352,7 +352,7 @@ class Xml {
 			foreach ($val as $e){
 				$node = self::$_DOM->createElement($tag);
 				if ($id) $node->setAttribute('id',$id);
-				self::_array2xml($e, $node, $valid);
+				self::_array2XML($e, $node, $valid);
 				$obj->appendChild($node);
 			}
 		}
@@ -368,14 +368,14 @@ class Xml {
 	 *	v3.0 - 04 / May / 2008
 	 *	changelog:
 	 * 	- methods are now static 
-	 * 	  no more instantiating an xml object everytime a conversion is needed.
+	 * 	  no more instantiating an XML object everytime a conversion is needed.
 	 * 	- added htmlspecialchars_decode to attribute values
 	 *  - cleaned code a lot.
 	 *  - commented everything
 	 *  - added the code for removing empty 'value' keys. 
 	 *    and commented it out, for backwards compability.
 	**/
-	private static function _xml2array($query){
+	private static function _XML2array($query){
 		$unique = true; $array = array();
 		foreach ($query as $node){
 			// check that this node is an element
@@ -383,7 +383,7 @@ class Xml {
 			// reset vars
 			$cont=array(); $id='';
 			// if the node has children use recursion an get the values.
-			if ($node->childNodes->length > 1) $cont = self::_xml2array($node->childNodes);
+			if ($node->childNodes->length > 1) $cont = self::_XML2array($node->childNodes);
 			else $cont['value'] = $node->textContent;
 			// check for attributes and store them in the cont array 
 			// as if they were regular values.
@@ -420,10 +420,10 @@ class Xml {
 	private static function _byid($action=false, $id=false, $objorpath=false, $returnarray=true){
 		$action = strtolower($action);
 		if (!$id) Core::error('VARREQ','LIBTIT',array('__METHOD-1__','id'));
-		// set the domdocument. and make sure that an xml file is loaded.
+		// set the domdocument. and make sure that an XML file is loaded.
 		self::_checkdom($objorpath, false, true, true);
 		if (!$query = self::query("//*[@id='$id']")) return false;
-		$query = $returnarray? self::_xml2array($query) : $query;
+		$query = $returnarray? self::_XML2array($query) : $query;
 		// return the first ocurrence from the query
 		foreach($query as $element) {
 			if ($action=='get') return $element;

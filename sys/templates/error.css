@@ -1,30 +1,30 @@
-	.fwErrorWrapper,
-	.fwErrorPHPWrapper	{ z-index:9999; position:relative; font-family:Lucida Console; margin-bottom:1.5em; text-align:center;}
-	.fwErrorMain,
-	.fwErrorPHPMain, 
-	.fwErrorDebug		{ z-index:99999; position:relative; width:45%; margin:0 auto; text-align:left;}
-	.fwErrorMain,
-	.fwErrorPHPMain		{ margin:0 auto; text-align:left; padding:0 20px; }
-	.fwErrorMain		{ border:1px solid #900; background:#FFD;}
-	.fwErrorPHPMain		{ border:1px solid #000; background:#900;}
-	.fwErrorMain h3,
-	.fwErrorPHPMain h3	{ margin:20px 0 0 0; font-size:14pt; letter-spacing:-1.5px; word-spacing:-4px; }
-	.fwErrorMain h3		{ color:#900; }
-	.fwErrorPHPMain h3	{ color:#FFF; }
-	.fwErrorMain h3 strong,
-	.fwErrorMain h3 b,
-	.fwErrorMain h3 small,
-	.fwErrorMain h3 span  { color:#CC9; margin-left:.3em;}
-	.fwErrorMain h3 small { letter-spacing:-5px; margin-right:3px; margin-left:-1px;}
-	.fwErrorMain p,
-	.fwErrorPHPMain	p	{ font-size:12pt !important; margin-bottom:20px; letter-spacing:-.8px; font-family:Verdana; }
-	.fwErrorPHPMain p	{ color:#FFC; }
-	.fwErrorMain div,
-	.fwErrorPHPMain div,
-	.fwErrorDebug pre	{ font-size:9pt; color:#900; display:block;}
-	.fwErrorMain div,
-	.fwErrorMain pre	{ color:#900;}
-	.fwErrorPHPMain div { color:#000;}
-	.fwErrorMain div,
-	.fwErrorPHPMain div	{ position:absolute; right:2em; margin:5px -1.8em 0 0;  }
+	.fwErrorWrapper,
+	.fwErrorPHPWrapper	{ z-index:9999; position:relative; font-family:Lucida Console; margin-bottom:1.5em; text-align:center;}
+	.fwErrorMain,
+	.fwErrorPHPMain, 
+	.fwErrorDebug		{ z-index:99999; position:relative; width:45%; margin:0 auto; text-align:left;}
+	.fwErrorMain,
+	.fwErrorPHPMain		{ margin:0 auto; text-align:left; padding:0 20px; }
+	.fwErrorMain		{ border:1px solid #900; background:#FFD;}
+	.fwErrorPHPMain		{ border:1px solid #000; background:#900;}
+	.fwErrorMain h3,
+	.fwErrorPHPMain h3	{ margin:20px 0 0 0; font-size:14pt; letter-spacing:-1.5px; word-spacing:-4px; }
+	.fwErrorMain h3		{ color:#900; }
+	.fwErrorPHPMain h3	{ color:#FFF; }
+	.fwErrorMain h3 strong,
+	.fwErrorMain h3 b,
+	.fwErrorMain h3 small,
+	.fwErrorMain h3 span  { color:#CC9; margin-left:.3em;}
+	.fwErrorMain h3 small { letter-spacing:-5px; margin-right:3px; margin-left:-1px;}
+	.fwErrorMain p,
+	.fwErrorPHPMain	p	{ font-size:12pt !important; margin-bottom:20px; letter-spacing:-.8px; font-family:Verdana; }
+	.fwErrorPHPMain p	{ color:#FFC; }
+	.fwErrorMain div,
+	.fwErrorPHPMain div,
+	.fwErrorDebug pre	{ font-size:9pt; color:#900; display:block;}
+	.fwErrorMain div,
+	.fwErrorMain pre	{ color:#900;}
+	.fwErrorPHPMain div { color:#000;}
+	.fwErrorMain div,
+	.fwErrorPHPMain div	{ position:absolute; right:2em; margin:5px -1.8em 0 0;  }
 	.fwErrorDebug *		{ margin:5px 0 0 -15px; font-family:Lucida Console;}

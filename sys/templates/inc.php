@@ -29,5 +29,5 @@
 	$_EXTERNAL = true;
 
 	// load the framework
-	if (strpos('image',$_TYPE) === false)  include ('/var/www/gacetadelcaribe/index.php');
+	if (strpos('image',$_TYPE) === false)  include ('%PATH%');
 ?>

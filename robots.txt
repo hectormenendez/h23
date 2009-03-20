@@ -1,8 +1,8 @@
-# robots.txt for http://www.frenoscancun.com
-
-User-agent:*
-Disallow: /app/
-Disallow: /sys/
-Disallow: /tmp/
-Disallow: /inc/
+# robots.txt for http://www.frenoscancun.com
+
+User-agent:*
+Disallow: /app/
+Disallow: /sys/
+Disallow: /tmp/
+Disallow: /inc/
 Allow: /inc/img/
