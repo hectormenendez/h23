@@ -1,0 +1,32 @@
+	.fx0 {
+		background:#393;
+		color:white;
+		float:right;
+		font-style:italic;
+		font-weight:bold;
+		line-height:1.4em;
+		margin:0 0 0 1em;
+		padding:1em;
+		text-align:center;
+		width:250px;
+	}
+	
+	h3 {
+		color:#393;
+		font-size:1.3em;
+		margin-bottom:.5em;
+	}
+	
+	img.fll { 
+		float:left;
+		margin:.5em 1em 1em 0;
+	}
+
+	img.flr { 
+		float:right;
+		margin:.5em 0 1em 1em;
+	}
+	
+	img.ful {
+		margin:0 0 1em -1em;
+	}

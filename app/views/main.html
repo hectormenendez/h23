@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="content-language" content="es-mx"  />
+	<meta name="robots" content="index, follow"/>
+	<meta name="author" content="GIRO Diseño - Héctor Menéndez"/>
+	<meta name="copyright" content="Octubre 2008"/>
+	<meta name="description" content=""/>
+	<meta name="keywords" content=""/>
+	
+	<title>Gaceta del Caribe - Año 1 No. 1 - Oaxaca </title>
+	
+	<link rel="shortcut icon" href="<?=INC.'favicon.ico'?>"/>
+
+	<link rel="stylesheet" type="text/css" href="<?=CSS.'structure.css'?>" media="all"/>
+	<link rel="stylesheet" type="text/css" href="<?=CSS.'theme.csx'?>" media="all"/>
+	<script type="text/javascript" src="<?=JS.'jquery.js'?>"></script>
+	<script type="text/javascript" src="<?=JS.'0101/main.js'?>"></script> 
+</head>
+
+<body>
+
+	<div id="debug"></div>
+	
+	
+	<!-- Main Container-->
+	<div id="main">
+		
+		<div id="logo">
+			<img src="<?=IMG.'logo.blue.png'?>" alt="Logotipo de Gaceta del Caribe"/>
+			<h1><a href="http://www.gacetadelcaribe.com/">Gaceta del Caribe - Versión online de la publicación impresa bimestral</a></h1>
+			<h5>Año 1 No 1 Octubre-Diciembre 2008</h5>
+		</div>
+		
+		<div id="menu">
+			<h6>Navegación</h6>
+			<ul>
+				<li><a href="http://www.gacetadelcaribe.com/" class="root">Inicio</a></li>
+				<li><a href="#quienes-somos" class="qsom">¿Quiénes Somos?</a></li>
+				<li><a href="#editorial" class="edit">Editorial</a></li>
+				<li><a href="#numeros-anteriores" class="numa">Números Anteriores</a></li>
+				<li><a href="#contacto" class="ctac">Contacto</a></li>
+			</ul>
+		</div>
+		
+		<div id="info">
+		</div>
+		
+		<!-- Content -->
+		<div id="cont">
+			
+			<!-- Content Left -->
+			<div class="lft">
+				<div id="navi">
+					<h6>Índice</h6>
+					<ul>
+						<li><a href="/0101/portada/oaxaca-patrimonio-cultural-de-la-humanidad" title="">
+							<strong>Oaxaca</strong> <em>en Portada</em>
+						</a></li>
+						<li><a href="/0101/cultura/oaxaca-sus-espacios-para-el-arte-y-sus-artistas" title="por Carlos-Blas Galindo">
+							<strong>Oaxaca, <span>sus espacios</span> <span>para el arte</span> <span>y sus Artistas</span></strong> <em>en Cultura</em>
+						</a></li>
+						<li><a href="/0101/ecologia/atributos-naturales-de-oaxaca" title="por Biól. Patricia Santos">
+							<strong>Atributos naturales de Oaxaca</strong> <em>en Ecología</em>
+						</a></li>
+						<li><a href="/0101/viajes/cienfuegos-la-perla-del-sur" title="">
+							<strong>Cienfuegos, <span>la perla del sur</span></strong> <em>en Viajes</em>
+						</a></li>
+						<li><a href="/0101/restaurantes/sugoi-fusion-franco-japonesa" title="">
+							<strong>Sugoi</strong> <em>en Restaurantes</em>
+						</a></li>
+						<li><a href="/0101/lugares/la-bodeguita-del-medio-la-casa-del-mojito" title="">
+							<strong>La Bodeguita <span>del Medio</span></strong> <em>en Lugares</em>
+						</a></li>
+						<li><a href="/0101/eventos/sexto-festival-internacional-de-cine-morelia" title="Morelia Michoacán">
+							<strong>Sexto Festival <span>Internacional</span> de Cine</strong> <em>en Eventos</em>
+						</a></li>
+						<li><a href="/0101/sociales/miss-venezuela-dayana-mendoza" title="por Luis Carín">
+							<strong>Miss Venezuela</strong> <em>en Sociales</em>
+						</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<!-- Content Center -->
+			<div id="covr" class="mid">
+				<h6>Contenido</h6>
+				<div class="c1">
+					<div class="n1 r0">
+						<h2 class="<?=$sect[0]?>"><a href="<?=$cont[$sect[0]]['lnk']?>" title="<?=$cont[$sect[0]]['ttt']?>"><?=$cont[$sect[0]]['tit']?></a></h2>
+					</div>
+				</div>
+				<div class="c2">
+					<div class="n2 r1">
+						<h2 class="<?=$sect[1]?>"><a href="<?=$cont[$sect[1]]['lnk']?>" title="<?=$cont[$sect[1]]['ttt']?>"><?=$cont[$sect[1]]['tit']?></a></h2>
+					</div>
+					<div class="n3 r3">
+						<h2 class="<?=$sect[2]?>"><a href="<?=$cont[$sect[2]]['lnk']?>" title="<?=$cont[$sect[2]]['ttt']?>"><?=$cont[$sect[2]]['tit']?></a></h2>
+					</div>
+				</div>
+				<div class="c2">
+					<div class="n4 r0">
+						<h2 class="<?=$sect[3]?>"><a href="<?=$cont[$sect[3]]['lnk']?>" title="<?=$cont[$sect[3]]['ttt']?>"><?=$cont[$sect[3]]['tit']?></a></h2>
+					</div>
+				</div>
+				<div class="c2">
+					<div class="n5 r3">
+						<h2 class="<?=$sect[4]?>"><a href="<?=$cont[$sect[4]]['lnk']?>" title="<?=$cont[$sect[4]]['ttt']?>"><?=$cont[$sect[4]]['tit']?></a></h2>
+					</div>
+					<div class="n6 r1">
+						<h2 class="<?=$sect[5]?>"><a href="<?=$cont[$sect[5]]['lnk']?>" title="<?=$cont[$sect[5]]['ttt']?>"><?=$cont[$sect[5]]['tit']?></a></h2>
+					</div>
+				</div>
+				<div class="c2">
+					<div class="n7 r2">
+						<h2 class="<?=$sect[6]?>"><a href="<?=$cont[$sect[6]]['lnk']?>" title="<?=$cont[$sect[6]]['ttt']?>"><?=$cont[$sect[6]]['tit']?></a></h2>
+					</div>
+					<div class="n8 r2">
+						<h2 class="<?=$sect[7]?>"><a href="<?=$cont[$sect[7]]['lnk']?>" title="<?=$cont[$sect[7]]['ttt']?>"><?=$cont[$sect[7]]['tit']?></a></h2>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Content Right -->
+			<div class="rgt">
+				<div id="look">
+					<input type="text" class="n1" value="Buscar..." />
+					<input type="submit" class="n2" value="OK"/>
+				</div>
+				<div id="mini">
+					<a href="/" class="fill" title="Gaceta del Caribe - Portada Año 1 No. 1 Octubre - Diciembre 2008"><img src="<?=IMG.'covers/0101.sml.jpg'?>" alt="Gaceta del Caribe - Portada Año 1 No. 1 Octubre - Diciembre 2008"/></a>
+				</div>
+				<img src="/inc/img/eventos.png"/>
+			</div>
+		</div>
+		
+		<!-- Footer -->
+		<div id="foot"></div>
+		
+		<div id="mask"></div>
+		
+	</div>
+	
+	<div id="hold">
+		<div class="edit">
+			<h3 name="editorial">Editorial</h3>
+			<p>La especie humana por su vocación trashumante se exige a si misma descubrir nuevas experiencias en el transcurso de su vida, nunca desperdicia la ocasión de disfrutar nuevas sensaciones, nuevos aromas, observar vistas espectaculares, contemplar obras de arte, extasiarse escuchando piezas musicales, degustar nuevos sabores, y cuando es posible hacerlo en los transportes más insólitos la experiencia se torna más vivificante. Y ya que podemos regalarnos la experiencia de los viajes, haremos nuestro el objetivo de darle a tu inquietud viajera tanta riqueza como sea posible, siempre dentro de las mejores opciones de precio.</p>
+			<p>A través de nuestras páginas esperamos que encuentres las posibilidades del viaje que aspiras, principalmente en nuestra Región Caribeña, donde tenemos la feliz circunstancia de vivir.</p>
+			<p>Debo agradecer el grán interés de nuestro consejo editorial por la creación de esta revista, así como el de los destacados colaboradores que se sumarán a este esfuerzo y cuyas plumas adornarán esta publicación.</p>
+			<p>A la Gaceta del Caribe: <strong>¡Salud!</strong></p>
+			<p class="sign"><em>Angélica Delgado</em></p>
+		</div>	
+		<div class="qsom">
+			<h3 name="quienes-somos">¿Quiénes Sómos?</h3>
+			<p><strong>Gaceta del Caribe</strong>, una revista bimestral con un tiraje de 2,000 ejemplares distribuidos gratuitamente por correo a un público de amplio poder adquisitivo (NSE ABC), fundamentalmente en Cancún, Riviera Maya y Playa del Carmen Quintana Roo.</p>
+			<h4>Nuestra Misión</h4>
+			<p>Que nuestros lectores, grandes viajeros, revivan sus experiencias de viaje de una manera mas estimulante, dándoles la opción de integrarse en la comunidad visitada como un habitante con plena pertenencia al sitio visitado.</p>
+			<h4>Nuestra Visión</h4>
+			<p>Será difundir en sus páginas las bellezas naturales, el respeto al medio ambiente, el goce de las manifestaciones artísticas y culturales de nuestra región. Estos lugares; que aun siendo alguna vez visitados no son totalmente comprendidos ni apreciados.</p>
+			<h4>Contenido</h4>
+			<p>Tenemos colaboradores de alto nivel literario, lo que nos afirma en el medio como una revista de contenido valioso. Se incluye aquello que definimos como símbolos de status: <strong>marcas de prestigio, lugares exclusivos y destinos con amplia diversidad cultural</strong>, deseos que nacen de las aspiraciones del individuo pero que responden al mismo tiempo a necesidades de autovaloración y de pertenencia a un grupo selecto.</p>
+			<h4>Temas</h4>
+			<p><strong>Viajes, Gastronomia, cultura, moda y sociales</strong> con un sabor local pero con factura internacional, un tratamiento periodístico que deja entrever en cada un o de sus trabajos que el lector es cosmopolita y entendido en los temas actuales.<br/> Reseña de viajes a ciudades, complementando con temas de arte, ofertas gastronómicas e, incluso, temas de biodiversidad local.</p>
+			<h4>Target</h4>
+			<p>Esta dirigida a un mercado de jóvenes maduros de amplio poder adquisitivo.<br/> Una revista bien estructurada, con fotos y textos agradables, y de lectura estimulante, impresa a todo color.</p>
+		</div>
+		<div class="ctac">
+			<form id="ctac" action="/inc/email.php">
+			<h3 name="contacto">Contácto</h3>
+			<div class="cen">
+				<p><strong class="blk">Háganos saber su pregunta, sugerencia o comentario.</strong><em class="sign">Si usted esta enviando esta solicitud al editor para ser tomado en consideración para publicación en la revista, por favor asegúrese de incluir su nombre, ubicación, correo electrónico y número de teléfono.</em></p>
+				<label class="req ctt">
+					<span class="not">Contenido del Mensaje</span>
+					<textarea rows="4" cols="60"></textarea>
+				</label>
+			</div>
+			<div class="ctr">
+				<div class="lft">
+					<label class="req nam">
+						<span>Nombre Completo</span>
+						<input type="text"/>
+					</label>
+					<label class="req tel">
+						<span>Teléfono</span>
+						<input type="text"/>
+					</label>
+					<label class="req eml">
+						<span>Correo Electrónico</span>
+						<input type="text"/>
+					</label>
+				</div>
+				<div class="rgt">
+					<label class="emp">
+						<span>Empresa</span>
+						<input type="text"/>
+					</label>
+					<label class="loc">
+						<span>Ciudad o Localidad</span>
+						<input type="text"/>
+					</label>
+					<div>
+						<input class="snd" type="submit" value="ENVIAR"/>
+						<div class="alt">
+							<span>Olvido incluir :</span>
+							<ul></ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			</form>
+			<div class="cen">
+				<p><strong class="blk">Si prefiere el correo tradicional, puede escribirnos a:</strong><em class="sign">Av. López Portillo No. 448 Altos<br/>Cancún, Quintana Roo. Mexico.<br/>CP 77500</em></p> 
+				<p><strong class="blk">Si desea contactarnos via telefónica :</strong><em class="sign">+52 (998) 1121573</em></p> 
+			</div>
+		</div>
+	</div>
+	
+	<div id="fill"></div>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+
+/* ---------------------------------------------------------------  CSS RESET */
+
+	html, body { width:100%; height:100%; }
+	
+	html, body, div, span, h1, h2, h3, h4, h5, h6, img, fieldset, 
+	label, input, textarea, p, a, b, u, i, pre, ul, ol, li, ins, del, dd {
+		font-size:100%; background:transparent; vertical-align:baseline;
+		margin:0; padding:0; border:0; outline:none;  }  
+	ul, li, ol { list-style:none; }	
+	body { font-size:81%; line-height:1; }
+	p { display:block; font-size:1em; text-indent:.5em; margin:0 0 1em 0; letter-spacing:0; text-align:justify; }	
+	p, textarea, input { line-height:1.3; }
+	div { position:relative; }
+
+	a.fill { position:absolute; left:0; top:0; height:100%; width:100%; display:block; letter-spacing:-1000em; }
+	
+/* ---------------------------------------------------------------  HTML TAGS */
+
+	body, p, textarea, input { font-family:'Lucida Sans Unicode','Lucida Grande', sans-serif;	}
+	h6 { display:none; }
+	h5 { font-size:.8em; font-family: helvetica, sans-serif; }
+
+/* ------------------------------------------------------------------ LAYERS */
+
+	#main { z-index:1; }
+		#logo { z-index:5; }
+		#info { z-index:4; }
+		#mask { z-index:3; }
+		#menu { z-index:2; }
+		#cont { z-index:1; }
+	#fill { z-index:0; }
+
+/* ---------------------------------------------------------- COMMON CLASSES */
+
+	.not { display:none !important; }	
+
+/* ----------------------------------------------------- ELEMENT DEFINITIONS */
+
+	#main, #menu, #cont, #foot { position:relative; width: 984px; margin:0 auto; }	
+	
+	#main { overflow:hidden; }
+	
+	#mask, #fill { position:absolute; display:none; opacity:0; top:0; left:0; width:100%; height:100%; } 
+	#mask { margin-top:30px; }
+	#logo { position:absolute; top:0; left:0; width:290px; }
+		#logo img  { display:none; }
+		#logo h1   { height:70px; letter-spacing:-1000em; }
+		#logo h1 a { display:block; line-height:70px; }
+		#logo h5   { cursor:default; text-align:center; line-height:20px; width:200px; border-bottom-width:2px; border-bottom-style:solid; }
+
+	#menu { height:27px; font-weight:bold; font-size:1em; }
+		#menu, #menu a:hover { border-bottom-width:6px; border-bottom-style:solid; } 
+		#menu ul, #menu li, #menu a { display:block; line-height:27px; }
+		#menu ul    { float:right; margin-right:1em; }
+		#menu ul li { float:left; margin-left:.8em; padding-left:1em;}
+		#menu li:first-child { padding-left:0; }
+		#menu a { text-decoration:none; }
+
+	#hold, #info { display:none; }
+	#info { position:absolute; overflow:hidden; margin-left:202px; padding-bottom:2em; width:782px; border-bottom-width:2px; border-right-width:2px; border-style:solid; }
+		#info div, #info textarea { overflow:hidden; }
+		#info p  { margin:.5em 2em 0em 100px; font-size:.97em; }
+		#info h3 { margin:1em 0 1em 100px; font-size:1.2em; }
+		#info h4 { text-align:right; margin-right:2em; text-transform:uppercase; }
+		#info .cen { margin-top:-1em; }
+		#info .sign  { font-family:Georgia, serif; }
+		#info p.sign { text-align:right; }
+		#info strong.blk, #info em.sign { display:block; text-indent:0; }
+		#info textarea { display:block; margin:1em 0 1em 100px; padding:5px; width:650px; border-width:1px; border-style:solid;}
+		#info .lft, #info .rgt { float:left; margin-bottom:0; }
+		#info .lft { margin-left:100px; }
+		#info .rgt { margin-left:30px;  }
+		#info label, #info label span, #info label input { display:block; }
+		#info label, #info label input  { margin-bottom:1em; }
+		#info label span { font-weight:bold; line-height:1.2em; }
+		#info label input, #info .snd { height:22px; }
+		#info label input { font-size:16px; padding:2px 2px 0; width:310px; border-width:1px; border-style:solid;}
+		#info .snd { float:left; margin-top:0.8em; font-size:1.25em; font-weight:bold; height:30px; padding:0 10px 2px; }
+		#info .alt { float:left; display:none; right:20px; width:225px; text-align:right; line-height:1.3em; }
+		#info .alt span { font-weight:bold; }
+
+	#cont { overflow:hidden; }
+		#cont .tit h2 { display:none; }
+		#cont .lft, #cont .rgt, #cont .mid { float:left; position:relative; }
+		#cont .lft, #cont .rgt { width:200px; } 
+		#cont .lft {  }
+			#navi { margin-top:59px; text-align:right; border-bottom-width:6px; border-bottom-style:solid;  }
+				#navi ul, #navi li, #navi a, 
+				#navi span, #navi strong, #navi em { display:block; }
+				#navi ul { margin-left:20px; }
+				#navi a  { text-decoration:none; padding:7px 14px 7px 0; border-bottom-width:2px; border-bottom-style:solid; }
+				#navi a strong { font-size:1.14em; text-transform:uppercase; }
+				#navi a em	   { font-size:.9em; font-style:normal; }
+		
+		#cont .mid { width:578px; margin:0 2px; }
+			#covr div { position:relative; }
+			#cont .tit, #covr .c1, #covr .c2 { width:100%; overflow:hidden;  }
+			#cont .tit, #covr .c1, #covr .c1 div { height:264px; }
+			#cont .cnt { position:relative; padding:1em; }
+			#covr .c2, #covr .c2 div { height:192px; }
+				#covr .c2 div { overflow:hidden; float:left; }
+				#covr .r0 { width:100%;  } 
+				#covr .r1 { width:386px; }
+				#covr .r2 { width:289px; }
+				#covr .r3 { width:192px; }
+				#covr a, #covr h2 { position:absolute; width:100%; height:100%; }
+				#covr h2 * { display:block; text-indent:-3000em; }
+
+		
+		#cont .rgt { border-top-width:2px; border-top-style:solid; overflow:hidden; }
+			#look input.n1, #look input.n2 { float:left; }
+			#look input.n1 { padding:1px; font-size:.95em; width:176px; border-width:1px; border-style:solid; border-right:0; }
+			#look input.n2 { width:21px; height:20px; text-indent:-1000em; }
+			
+			#mini { clear:both; width:100%; height:242px; border-width:2px; border-style:solid; border-left:0; border-right:0; }
+			
+			#cont .s1 { height:242px; }
+			#cont .s2 { height:484px; }
+			#cont .ad { width:200px; border-top-width:2px; border-top-style:solid; }
+			#cont .ad span { position:absolute; width:55px; height:14px; top:0; left:0; }
+
+	#foot { min-height:27px; border-top-width:6px; border-top-style:solid; }
+	
+	#debug { 
+		position:fixed; padding:1em 1em 0 1em; bottom:0; left:0; 
+		border:4px red solid; border-bottom:none; min-height:30px; min-width:60px; 
+		background:#9FF; margin-left:1em; z-index:9999; }
+	#debug, #debug * { color:red; font-weight:bold; font-size:12pt; text-align:center; }
+
+	

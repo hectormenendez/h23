@@ -1,0 +1,14 @@
+
+.fx0 {
+	float:right;
+	width:300px;
+	background:#333;
+	color:white;
+	padding:1em;
+	margin:0 0 1em 1em;
+}
+
+.fx0 li { 
+	line-height:1.8em; 
+	font-family:Georgia,serif; 
+}
