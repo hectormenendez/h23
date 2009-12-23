@@ -1,7 +1,7 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 class Uri {
-	
+
 	private static $_STR = ''; // Uri string.
 	private static $_SEG;      // Uri segments array
 	private static $_RSG;	   // Uri routed segments array
@@ -23,27 +23,27 @@ class Uri {
 		if (self::$_STR=='/') self::$_STR='';
 		return self::$_STR;
 	}
-	
+
 	// Returns the URI segment based on the number provided.
 	public static function segment($n='') {
 		return !(isset(self::$_SEG[$n]))? false : self::$_SEG[$n];
 	}
-	
+
 	public static function segments($value = false){
 		if (!$value) return self::$_SEG;
 		self::$_SEG = $value;
 	}
-	
+
 	public static function routedsegments($value = false){
 		if (!$value) return self::$_RSG;
 		self::$_RSG = $value;
 	}
-	
+
 	public static function string(){
-		return self::$_STR;	
+		return self::$_STR;
 	}
-	
-	/** 
+
+	/**
 	 *  Removes the URL suffix if needed.
 	**/
 	public static function removesuffix(){
@@ -52,10 +52,10 @@ class Uri {
 			self::$_STR = preg_replace('|'.preg_quote($sfx)."$|",'',self::$_STR);
 		}
 	}
-	
+
 	/**
 	 *  EXPLODE THE URI SEGMENTS
-	 *  the individual segments will be stored in the self::$_SEG array.	
+	 *  the individual segments will be stored in the self::$_SEG array.
 	**/
 	public static function explode(){
 		self::$_SEG = array();
@@ -65,15 +65,15 @@ class Uri {
 			if ($val!='') self::$_SEG[] = $val;
 		}
 	}
-	/** 
-	 * FILTER MALICIOUS CHARACTERS 
+	/**
+	 * FILTER MALICIOUS CHARACTERS
 	**/
 	private static function _filter($str=''){
 		$uch = Core::config('uri_chars');
 		if ($uch!='' && $str!='') $str = preg_replace('|'.preg_quote($uch)."$|",'',$str);
 		return $str;
 	}
-	
+
 	/**
 	 *  RE-INDEX SEGMENT
 	 *  This function re-indexes the $this->segment array so that it
@@ -95,7 +95,7 @@ class Uri {
 			unset(self::$_RSG[0]);
 		}
 	}
-		
+
 	private static function _check($var){
 		//  get the server variable.
 		$path = isset($_SERVER[$var])? $_SERVER[$var] : @getenv($var);
@@ -103,8 +103,8 @@ class Uri {
 		self::$_STR = $path;
 		return true;
 	}
-	
-	/** 
+
+	/**
 	 *  PARSE REQUEST URI
 	 *  Clean unusable uri data from server variable and check if it usable.
 	**/
@@ -126,5 +126,4 @@ class Uri {
 		return $puri;
 	}
 }
-
 ?>

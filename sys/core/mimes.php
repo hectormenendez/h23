@@ -1,6 +1,6 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
-	$_MME = array(	
+	$_MME = array(
 		'hqx'	=>	'application/mac-binhex40',
 		'cpt'	=>	'application/mac-compactpro',
 		'csv'	=>	array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel'),

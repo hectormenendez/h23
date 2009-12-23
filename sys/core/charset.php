@@ -1,11 +1,11 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
-	
+
 	// supported character sets/encodings
 
 	$_CHS = array(
-		
-	// 	CHARSET ALIAS		   DB ALIAS   DEFAULT DB COLLATION 
-	
+
+	// 	CHARSET ALIAS		   DB ALIAS   DEFAULT DB COLLATION
+
 		'big5'		  => array( 'big5'  , 'big5_chinese_ci'   ), // Big5 Traditional Chines
 		'cp850'		  => array( 'cp850' , 'cp850_general_ci'  ), // DOS West European
 		'cp866'		  => array( 'cp866' , 'cp866_general_ci'  ), // DOS Russian

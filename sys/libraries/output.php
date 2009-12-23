@@ -1,19 +1,19 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 class Output {
-	
+
 	private static $_ISC = false;   // wheter the current output call is a cached file or not.
 	private static $_FOU;		    // final output
 	private static $_CEX = 0;	    // wheter the cache has expired or not.
 	private static $_HDR = array(); // Headers array
-	
+
 	public static function _construct(){
 		//  check if there's a cached version of the requested page.
 		//  if so, display it and exit.
 		if (self::_cachedisplay()) exit;
 	}
-	
-	/** 
+
+	/**
 	 *  ENABLE CACHE
 	 *  Set the cache expiration time
 	 *  if set to 0, cache will be disabled.
@@ -21,20 +21,20 @@ class Output {
 	public static function cache($time){
 		self::$_CEX = !is_numeric($time)? 0 : $time;
 	}
-	
+
 	public static function iscache(){
 		return self::$_ISC;
 	}
-	
+
 	public static function headers($header=false){
 		if (!$header) return self::$_HDR;
 		self::$_HDR[]=$header;
 	}
-	
+
 	public static function get(){
 		return self::$_FOU? self::$_FOU : '';
 	}
-	
+
 	public static function display($output=false){
 		// Set the output data
 		if (!$output) $output = self::$_FOU;
@@ -48,12 +48,12 @@ class Output {
 		if (method_exists($ctl,'_output')) call_user_func(array($ctl,'_output'));
 		else echo $output;
 	}
-	
+
 	public static function append($output){
 		if (!self::$_FOU) self::$_FOU = $output;
 		else self::$_FOU .= $output;
 	}
-	
+
 	private static function _cachewrite($output){
 		// Build the file path and open the file
 		$path = self::_cachepath();
@@ -70,7 +70,7 @@ class Output {
 		// set write permissions to newly created cache file
 		@chmod($path,0777);
 	}
-	
+
 	private static function _cachedisplay() {
 		// Build the file path
 		$path = self::_cachepath();
@@ -98,7 +98,7 @@ class Output {
 		self::display(str_replace($match[0],'',$cache));
 		return true;
 	}
-	
+
 	private static function _cachepath(){
 		// if cache directory doesn't exists create it.
 		if (!is_dir(CACH)) mkdir(CACH,0777);

@@ -1,7 +1,7 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 class Arrays {
-	
+
 	/**
 	 * Return the first element of an array
 	**/
@@ -11,8 +11,8 @@ class Arrays {
 		// was reset since we didn't pass the array as reference, so a copy was made.
 		return current($array);
 	}
-	
-	/** 
+
+	/**
 	 *  Return the key of the first element of an array.
 	**/
 	public static function key_first($array=false){
@@ -22,7 +22,7 @@ class Arrays {
 		return key($array);
 	}
 
-	/** 
+	/**
 	 *  Returns an exact copy of an array, including its pointer position
 	**/
 	public static function copy(&$array=false){
@@ -32,10 +32,10 @@ class Arrays {
 		return $copy;
 	}
 
-	/** 
+	/**
 	 *  Search for a KEY with specified variable type exists inside given array
 	 *	Note: if a ! is specified before the type, the function will look for the opposite
-	 *  @param   string 	'int' or 'string' 
+	 *  @param   string 	'int' or 'string'
 	 *  @param   array    the array to search
 	 *  @return  bool
 	**/
@@ -43,7 +43,7 @@ class Arrays {
 		return self::_types(false, $type, $array, false);
 	}
 
-	/** 
+	/**
 	 *  return all KEYS inside array with specified variable type
 	 *	Note: if a ! is specified before the type, the function will look for the opposite
 	 *  @param string 	'int' or 'string'
@@ -53,8 +53,8 @@ class Arrays {
 	public static function key_get_type($type=false, $array=false){
 		return self::_types(false, $type, $array, true);
 	}
-	
-	/** 
+
+	/**
 	 *  Search for a VALUE with specified variable type exists inside given array
 	 *	Note: if a ! is specified before the type, the function will look for the opposite
 	 *  @param  string 	'int','string','array', 'bool'
@@ -65,7 +65,7 @@ class Arrays {
 		return self::_types(true, $type, $array, false);
 	}
 
-	/** 
+	/**
 	 *  return all KEYS inside array with specified variable type
 	 *	Note: if a ! is specified before the type, the function will look for the opposite
 	 *  @param  string 	'int','string','array', 'bool'
@@ -104,9 +104,9 @@ class Arrays {
 			// if the key/value is a the type we're lookin for: (unless this is a reverse call)
 			// if this is a get_type request ($all) store the matching object
 			// if this is a has_type request (!$all) return true;
-			if ($is_type($x)===$true) if($all) $r[$key]=$val; else return true; 
+			if ($is_type($x)===$true) if($all) $r[$key]=$val; else return true;
 		}
-		// if $r is not set it means that we couldn't find what we were looking for, return false. 
+		// if $r is not set it means that we couldn't find what we were looking for, return false.
 		if (!isset($r)) return false;
 		// otherwise, return the keys/values found
 		return $r;
@@ -121,6 +121,5 @@ class Arrays {
 		if (!$array) Core::error('VARREQ','LIBTIT',$err);
 		if (!is_array($array)) Core::error('ARRTYP','LIBTIT', $err);
 	}
-
-	
 }
+?>

@@ -1,19 +1,19 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 class DB {
-	
+
 	public static $AUTO = true; 	//  Auto initialize the db?
 	public static $INFO = array();	//  Database Connections settings
 	public static $PORT = 3306;		//  Default connection port.
 	public static $DBUG = false; 	//  Wheter to show database related errors
 	public static $DB;
-	
+
 	private static $_DBS;	// Databases set in the configuration file
 	private static $_CHS;	// The supported charsets Array
 	private static $_DRV = array('mysql','sqlite');	 // Available Drivers (first one will be used as default)
-	
+
 	// The charsets that can be autodetected
-	
+
 	public static final function _construct(){
 		self::$DBUG = Core::config('debug');
 		// Load the charsets file so we can detect them.
@@ -26,20 +26,20 @@ class DB {
 		if (!is_array(self::$_DBS)) self::error('ARRTYP','LIBTIT', array(__CLASS__,'databases'));
 		if (!count(self::$_DBS)) self::error('ARRNUM','LIBTIT', array(__CLASS__,'databases',1));
 	}
-	
+
 	/**
 	 *
 	**/
 	public static function load($paramsorname=false, $return=false){
 		// first we have to determine wheter the user is providing a
-		// database name, an array of parameters, or a 
+		// database name, an array of parameters, or a
 		// DataSourceName ' dbdriver://username:password@hostname/database'
-		
+
 		if ($paramsorname!==false){
 			// parse a datasource name if any
 			if (is_string($paramsorname) && strpos($paramsorname,'://')!==false){
 				if(($dns = @parse_url($paramsorname))===false) self::error('DBPARM','LIBTIT',__METHOD__);
-				// parse params from url 
+				// parse params from url
 				$paramsorname = array(
 					'driver'	=> $dns['scheme'],
 					'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : null,
@@ -59,7 +59,7 @@ class DB {
 					}
 				}
 			// if the user sends a normal string means that we're searching for a database array
-			// defined on the configuration, if we can't find it, we send an error. 
+			// defined on the configuration, if we can't find it, we send an error.
 			} elseif (is_string($paramsorname) && array_key_exists($paramsorname,self::$_DBS) === false)
 				self::error('DBEXST','LIBTIT', array(__METHOD__,$paramsorname));
 			// at this point we have a valud string pointing to a existent database key, assign it.
@@ -76,20 +76,20 @@ class DB {
 		// gentlemen, start ur engines!
 		$driver = 'DB_'.self::$INFO['driver'].'_driver';
 		return self::$DB = new $driver;
-	}	
-	
+	}
+
 	public static function error($msg,$tit,$xtra=false){
 		// if debug is enabled show the error details
 		if (self::$DBUG===true) Core::error($msg,$tit,$xtra);
 		// or just send a plain error.
 		Core::error();
 	}
-	
-	/** 
+
+	/**
 	 * checks a database configuration array, and set its defaults.
 	**/
 	private static function _check(){
-		
+
 		// if not database name specified use array's name.
 		if (!isset(self::$INFO['name']) || !self::$INFO['name']) self::$INFO['name'] = Arrays::key_first(self::$_DBS);
 		// if not hostname specified use localhost
@@ -108,12 +108,11 @@ class DB {
 		if (is_writable(self::$INFO['cachedir'])===false) self::error('403DIR','LIBTIT',array(__CLASS__,'cachedir'));
 		// detect charset and collation if necessary
 		$chset = Core::config('charset');
-		if (!isset(self::$INFO['charset']) || !self::$INFO['charset']) 
+		if (!isset(self::$INFO['charset']) || !self::$INFO['charset'])
 			self::$INFO['charset'] = array_key_exists($chset, self::$_CHS)? self::$_CHS[$chset][0] : '';
-		if (!isset(self::$INFO['collat']) || !self::$INFO['collat']) 
+		if (!isset(self::$INFO['collat']) || !self::$INFO['collat'])
 			self::$INFO['collat']  = array_key_exists($chset, self::$_CHS)? self::$_CHS[$chset][1] : '';
 	}
-	
-}
 
+}
 ?>

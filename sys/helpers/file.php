@@ -4,13 +4,13 @@ class File {
 
 	private static $_MME = false;	// mime types array
 
-	// CHMOD 
+	// CHMOD
 	const FR 		= 0644;		// FILE READ
 	const FW 		= 0666;		// FILE WRITE
 	const DR 		= 0755;		// DIR READ
 	const DW 		= 0777;		// DIR WRITE
 	// FOPEN MODES
-	const R		= 'rb';		// READ	
+	const R		= 'rb';		// READ
 	const RW		= 'r+b';	// READ WRITE
 	const WCD		= 'wb';		// WRITE CREATE DESTRUCTIVE
 	const RWCD		= 'w+b';	// READ WRITE CREATE DESTRUCTIVE
@@ -18,13 +18,13 @@ class File {
 	const RWC		= 'a+b';	// READ WRITE CREATE
 	const WCS		= 'xb';		// WRITE CREATE STRICT
 	const RWCS		= 'x+b';	// READ WRITE CREATE STRICT
-	
+
 	// opens the specified file and returns it as a string
 	public static function read($file=false){
 		if (!$file || !file_exists($file)) return false;
 		return file_get_contents($file);
 	}
-	
+
 	// writes data to specified file, creates new file if non existent
 	public static function write($path=false, $data, $chmod=self::FW, $mode=self::WCD){
 		// open, lock, write data, unlock and close file.
@@ -37,15 +37,15 @@ class File {
 		@chmod($path, $chmod);
 		return true;
 	}
-	
-	// deletes a file or a dir, no matter if the dir isn't empty. 
+
+	// deletes a file or a dir, no matter if the dir isn't empty.
 	// (this last behaviour can be set to false)
 	public static function delete($file=false, $all=true){
 		if (!is_string($file)) return false;
 		if (is_file($file)) return @unlink($file);
 		return self::rmdir($file,$all);
 	}
-	
+
 	public static function rmdir($file, $recursive=false){
 		if (!is_dir($file)) return false;
 		if (!$recursive) return @rmdir($file);
@@ -59,7 +59,7 @@ class File {
 		@rmdir($file);
 		return true;
 	}
-	
+
 	public static function info($file=false){
 		if (!$file || !file_exists($file)) return false;
 		$info['name']  = substr(strrchr($file, '/'), 1);
@@ -72,7 +72,7 @@ class File {
 		$info['perms'] = fileperms($file);
 		return $info;
 	}
-	
+
 	public static function mime($file=false){
 		$ext = substr(strrchr($file, '.'), 1);
 		if (!self::$_MME) {
@@ -87,14 +87,13 @@ class File {
 		if (is_array(self::$_MME[$ext])) return Arrays::first(self::$_MME[$ext]);
 		return self::$_MME[$ext];
 	}
-	
+
 	public static function mkdir($dir=false, $chmod=self::DW){
 		if (!is_string($dir) || is_dir($dir) || !@mkdir($dir, $chmod)) return false;
 		@chmod($dir,$chmod);
 		return true;
 	}
 
-	
-}
 
+}
 ?>

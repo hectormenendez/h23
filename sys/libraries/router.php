@@ -1,16 +1,16 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 class Router {
-	
+
 	private static $_RTR;  //  Routes Array
 	private static $_CTR;  //  Default Controller
 	private static $_DIR;  //  Directory of controller (if in subfolder)
 	private static $_CLS;  //  Current Controller (Class)
 	private static $_MTD;  //  Current Action (Method)
-	
-	/** 
+
+	/**
 	 *  STATIC CONSTRUCTOR
-	 *  custom method that will be called whenever 
+	 *  custom method that will be called whenever
 	 *  a static method of this class is called.
 	**/
 	public static function _construct(){
@@ -40,19 +40,19 @@ class Router {
 		Uri::reindex();
 	}
 
-	/** 
+	/**
 	 *  RETURN CURRENT CONTROLLER (CLASS)
 	**/
 	public static function classname(){
 		return self::$_CLS;
 	}
-	
+
 	public static function classpath(){
 		$s = self::$_DIR? self::$_DIR.'/' : '';
 		return CTRL.$s.self::$_CLS.EXT;
 	}
-	
-	/** 
+
+	/**
 	 * RETURN CURRENT ACTION (METHOD)
 	**/
 	public static function methodname(){
@@ -62,8 +62,8 @@ class Router {
 
 	/**
 	*  PARSE ROUTES
-	*  This function matches any routes that may exist 
-	*  to determine if the class/method needs to be remapped.	
+	*  This function matches any routes that may exist
+	*  to determine if the class/method needs to be remapped.
 	**/
 	private static function _parsecustom(){
 		$seg = Uri::segments();
@@ -76,9 +76,9 @@ class Router {
 		$uri = implode('/', $seg);
 		$num = count($seg);
 		// return if literal match is found.
-		if (isset(self::$_RTR[$uri])){ 
-			self::_set(explode('/', self::$_RTR[$uri])); 
-			return;	
+		if (isset(self::$_RTR[$uri])){
+			self::_set(explode('/', self::$_RTR[$uri]));
+			return;
 		}
 		// Get the available wildcards from the library
 		$wc = Core::config('routing_wildcards');
@@ -99,7 +99,7 @@ class Router {
 		// there was no matching route follow default route
 		self::_set($seg);
 	}
-	
+
 	/**
 	 *  SET THE ROUTE
 	 *  This function takes an array of URI segments as
@@ -117,12 +117,12 @@ class Router {
 		// if there's no custom routing this will be the same as Uri::segments();
 		Uri::routedsegments($segments);
 	}
-	
+
 	/**
 	 *  VALIDATE THE ROUTE
-	 *  Validates the supplied segments.  
-	 * Attempts to determine the path to the controller.	
-	**/ 
+	 *  Validates the supplied segments.
+	 * Attempts to determine the path to the controller.
+	**/
 	private static function _validate($segments = false){
 		//  if no segments are specified we use the current class and method.
 		if (!$segments) $segments = array(self::$_CLS, self::$_MTD);
@@ -145,11 +145,10 @@ class Router {
 			}
 			return $segments;
 		}
-		// if default controller doesn't exists throw an error instead of the 404. 
+		// if default controller doesn't exists throw an error instead of the 404.
 		if (!file_exists(CTRL.self::$_CTR.EXT)) Core::error('RTRCTR','LIBTIT',__CLASS__);
 		Core::error404(Uri::string());
 	}
-	
-}
 
+}
 ?>

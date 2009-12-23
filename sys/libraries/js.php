@@ -1,11 +1,11 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
-/* 
+/*
 
 	NOTE: I STILL CAN'T FIGURE WHAT'S WRONG HERE... DISABLED ENCODING OF KEYWORDS AND SPECIAL CHARS
 
 */
 class JS {
-	
+
 	private static $_PEN;	// Packer encoding
 	private static $_PFD;	// Packer Fast Decode
 	private static $_PCH;	// Packer Special Characters
@@ -29,8 +29,8 @@ class JS {
 	private static $_PES = array();					// Parser Escaped
 	private static $_PPP = array();					// Parser Patterns
 
-	private static $_FT;	
-	
+	private static $_FT;
+
 	final public static function _construct(){
 		self::$_PLE = array('None'=>0, 'Numeric'=>10, 'Normal'=>62, 'High ASCII'=>95);
 		self::$_PFD = Core::config('js_packer_fastdecode');
@@ -39,7 +39,7 @@ class JS {
 		self::$_PIC = Core::config('js_packer_ignorecase');
 		self::$_PEC = Core::config('js_packer_escapechar');
 	}
-	
+
 	public static function pack ($script, $encoding = null, $specialChars = null, $fastDecode = null) {
 		// delete this
 		self::$_FT = $FT;
@@ -55,22 +55,22 @@ class JS {
 		//if (self::$_PCH) $script = self::_pack_encode_specialchars($script);
 		return $script;
 	}
-	
+
 	public static function parse ($string) {
-		// execute the global replacement 
+		// execute the global replacement
 		self::$_PES = array();
 		// simulate the _patterns.toSTring of Dean
 		$regexp = '/';
 		foreach (self::$_PPP as $reg) $regexp .= '('.substr($reg[self::_PEX], 1, -1).')|';
 		$regexp = substr($regexp, 0, -1) . '/';
-		$regexp .= (self::$_PIC) ? 'i' : '';		
+		$regexp .= (self::$_PIC) ? 'i' : '';
 		$string = self::_parse_escape($string, self::$_PEC);
 		$string = preg_replace_callback($regexp, array(	'self','_parse_replace'), $string);
 		$string = self::_parse_unescape($string, self::$_PEC);
 		return preg_replace(self::$_PPD, '', $string);
 	}
-	
-	
+
+
 	/*
 		TODO: Load the functions from files and not from constants.
 	*/
@@ -79,7 +79,7 @@ class JS {
 		if (defined($name)===true) return constant($name);
 		die('ERROR :'.$name.' not declared (JS::get)');
 	}
-		
+
 	public static function compress($script) {
 		// protect strings
 		self::_parse_add('/\'[^\'\\n\\r]*\'/', '$1');
@@ -104,7 +104,7 @@ class JS {
 		// done
 		return self::parse($script);
 	}
-	
+
 	private static function _pack_encode_keywords($script) {
 		// escape high-ascii values already in the script (i.e. in strings)
 		if (self::$_PEN > 62) $script = self::_pack_escape95($script);
@@ -118,7 +118,7 @@ class JS {
 		if (empty($script)) return $script;
 		else return self::_pack_bootstrap($script = self::parse($script) , $keywords);
 	}
-	
+
 	private static function _pack_encode_specialchars($script) {
 		// replace: $name -> n, $$name -> na
 		self::_parse_add('/((\\x24+)([a-zA-Z$_]+))(\\d*)/', array('fn' => '_parse_replace_name'));
@@ -128,25 +128,25 @@ class JS {
 		$keywords = self::_pack_analyze($script, $regexp, '_pack_encode_private');
 		// quick ref
 		$encoded = $keywords['encoded'];
-		
+
 		self::_parse_add($regexp, array('fn' => '_parse_replace_encoded','data' => $encoded)	);
 		return self::parse($script);
 	}
-	
+
 	private static function _pack_escape95($script){
 		return preg_replace_callback('/[\\xa1-\\xff]/',	array('self', '_pack_escape95_callback'), $script);
 	}
-	
+
 	private static function _pack_escape95_callback($match){
 		return '\x'.((string)dechex(ord($match)));
 	}
-	
+
 	private static function _pack_analyze($script, $regexp, $encode) {
 		$wall = array(); // all words in the script
 		// get all words
 		preg_match_all($regexp, $script, $wall);
 		// simulate the javascript comportement of global match
-		$wall = $wall[0]; 
+		$wall = $wall[0];
 		if (empty($wall)) return false;
 		$wsort = array(); // list of words sorted by frequency
 		$wusrt = array(); // list of words without sorting
@@ -186,7 +186,7 @@ class JS {
 				self::$_PWC[$word] = 0;
 			}
 		} while ($i);
-		
+
 		// sort the words by frequency
 		// Note: the javascript and php version of sort can be different :
 		// in php manual, usort :
@@ -196,7 +196,7 @@ class JS {
 		// but equivalent.
 		// the ECMAscript standard does not guarantee this behaviour,
 		// and thus not all browsers (e.g. Mozilla versions dating back to at
-		// least 2003) respect this. 
+		// least 2003) respect this.
 		usort($wusrt, array('self', '_pack_sortwords'));
 		$j = 0;
 		// because there are "protected" words in the list
@@ -205,31 +205,31 @@ class JS {
 			if (!isset($wsort[$i]))	$wsort[$i] = substr($wusrt[$j++], 1);
 			$wenco[$wsort[$i]] = $value[$i];
 		} while (++$i < count($wusrt));
-		
+
 		return array('sorted'  => $wsort, 'encoded' => $wenco,	'protected' => $wprot);
 	}
-	
+
 	private static function _pack_sortwords($match1, $match2) {
 		return self::$_PWC[$match2] - self::$_PWC[$match1];
-	}	
+	}
 
 	private static function _pack_get_encoder($ascii){
-		return $ascii > 10 ? $ascii > 36 ? $ascii > 62 ? 
+		return $ascii > 10 ? $ascii > 36 ? $ascii > 62 ?
 			'_pack_encode95' : '_pack_encode62' : '_pack_encode36' : '_pack_encode10';
 	}
-	
+
 	// zero encoding
 	// characters: 0123456789
 	private static function _pack_encode10($charCode) {
 		return $charCode;
 	}
-	
+
 	// inherent base36 support
 	// characters: 0123456789abcdefghijklmnopqrstuvwxyz
 	private static function _pack_encode36($charCode) {
 		return base_convert($charCode, 10, 36);
 	}
-	
+
 	// hitch a ride on base36 and add the upper case alpha characters
 	// characters: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 	private static function _pack_encode62($charCode) {
@@ -313,7 +313,7 @@ class JS {
 			$params[] = '{}';
 		}
 		$params = implode(',', $params);
-		
+
 		// the whole thing
 		return 'eval(' . $unpack . '(' . $params . "))\n";
 	}
@@ -321,7 +321,7 @@ class JS {
 	private static function _pack_safe_regex($string) {
 		return '/'.preg_replace('/\$/', '\\\$', $string).'/';
 	}
-	
+
 	private static function _pack_escape($script) {
 		return preg_replace('/([\\\\\'])/', '\\\$1', $script);
 	}
@@ -329,13 +329,13 @@ class JS {
 	private static function _pack_put_fdecode($match) {
 		return '{' . self::$_PBF . ';';
 	}
-	
+
 	private static function _pack_put_fencode($match) {
 		return '{'."\n\t".'$encode=' . self::$_PBF . ';';
 	}
-	
-	// ------------------------------------------------------------------------------------------------------	
-	
+
+	// ------------------------------------------------------------------------------------------------------
+
 	private static function _parse_add($expression, $replacement = '') {
 		// count the number of sub-expressions
 		//  - add one because each pattern is itself a sub-expression
@@ -352,7 +352,7 @@ class JS {
 					// build a function to do the lookup
 					$quote = preg_match(self::$_PPQ, preg_replace(self::$_PPE,'', $replacement))? '"' : "'";
 					$replacement = array(
-						'fn' => '_parse_back_refs', 
+						'fn' => '_parse_back_refs',
 						'data' => array('replacement' => $replacement, 'length' => $length,	'quote' => $quote)
 					);
 				}
@@ -362,12 +362,12 @@ class JS {
 		if (!empty($expression)) self::_parse_add_pattern($expression, $replacement, $length);
 		else self::_parse_add_pattern('/^$/', $replacement, $length);
 	}
-	
+
 	private static function _parse_add_pattern(){
 		$arguments = func_get_args();
 		self::$_PPP[] = $arguments;
 	}
-	
+
 	// this is the global replace function (it's quite complicated)
 	private static function _parse_replace($arguments) {
 		if (empty($arguments)) return '';
@@ -381,7 +381,7 @@ class JS {
 				if (is_array($replacement) && isset($replacement['fn'])) {
 					if (isset($replacement['data'])) self::$_PPB = $replacement['data'];
 					return call_user_func(array('self', $replacement['fn']), $arguments, $i);
-				} 
+				}
 				elseif (is_int($replacement)) return $arguments[$replacement + $i];
 				$delete = (self::$_PEC == '' || strpos($arguments[$i], self::$_PEC) === false)? '' : "\x01".$arguments[$i]."\x01";
 				return $delete . $replacement;
@@ -389,7 +389,7 @@ class JS {
 			} else $i += $pattern[self::_PLN];
 		}
 	}
-	
+
 	private static function _parse_back_refs($match, $offset) {
 		$replacement = self::$_PPB['replacement'];
 		$quote = self::$_PPB['quote'];
@@ -403,23 +403,23 @@ class JS {
 		$start = $length - max($length - strlen($match[$offset + 3]), 0);
 		return substr($match[$offset + 1], $start, $length) . $match[$offset + 4];
 	}
-	
+
 	private static function _parse_replace_encoded($match, $offset) {
 		return isset(self::$_PPB[$match[$offset]])? self::$_PPB[$match[$offset]] : '';
 	}
-	
+
 	private static function _parse_escape($string, $escapeChar) {
 		if ($escapeChar) {
 			self::$_PPB = $escapeChar;
 			return preg_replace_callback('/\\'.$escapeChar.'(.)'.'/', array('self','_parse_escape_callback'),$string);
 		} else return $string;
 	}
-	
+
 	private static function _parse_escape_callback($match){
 		self::$_PES[] = $match[1];
 		return self::$_PPB;
 	}
-	
+
 	// decode escaped characters
 	private static function _parse_unescape($string, $escapeChar) {
 		if ($escapeChar) {
@@ -428,15 +428,15 @@ class JS {
 			return (preg_replace_callback($regexp, array('self', '_parse_unescape_callback'), $string));
 		} else return $string;
 	}
-	
+
 	private static function _parse_unescape_callback() {
 		if (isset(self::$_PES[self::$_PPB['i']]) && self::$_PES[self::$_PPB['i']] != '') $temp = self::$_PES[self::$_PPB['i']];
 		else $temp = '';
 		self::$_PPB['i']++;
 		return self::$_PPB['escapeChar'] . $temp;
 	}
-		
-	
+
+
 	/**
 	 *	JAVASCRIPT FUNCTIONS
 	 * ---------------------
@@ -447,7 +447,7 @@ class JS {
 	 * 		'while (aBool) { anAction(); }'.
 	 * 		The JavaScript functions below are corrected.
 	**/
-	
+
 	// unpacking function - this is the boot strap function
 	//  data extracted from this packing routine is passed to
 	//  this function when decoded in the target
@@ -482,14 +482,14 @@ function($packed, $ascii, $count, $keywords, $encode, $decode) {
 'function($charCode) {
 		return $charCode;
 }';//;';
-	
+
 	// inherent base36 support
 	// characters: 0123456789abcdefghijklmnopqrstuvwxyz
 	const _JS_encode36 =
 'function($charCode) {
 		return $charCode.toString(36);
 }';//;';
-	
+
 	// hitch a ride on base36 and add the upper case alpha characters
 	// characters: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 	const _JS_encode62 =
@@ -497,14 +497,14 @@ function($packed, $ascii, $count, $keywords, $encode, $decode) {
 		return ($charCode < _encoding ? \'\' : arguments.callee(parseInt($charCode / _encoding))) +
 		(($charCode = $charCode % _encoding) > 35 ? String.fromCharCode($charCode + 29) : $charCode.toString(36));
 	}';
-	
+
 	// use high-ascii values
 	// characters: ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ
 	const _JS_encode95 =
 'function($charCode) {
 	return ($charCode < _encoding ? \'\' : arguments.callee($charCode / _encoding)) +
 		String.fromCharCode($charCode % _encoding + 161);
-}'; 
-	
+}';
+
 }
 ?>

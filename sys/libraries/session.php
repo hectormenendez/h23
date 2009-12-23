@@ -1,13 +1,13 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
-/** 
+/**
  * Only the FILE method is currently enabled in sessions.
 **/
 
 class Session {
-	
+
 	const _DF = 'ymdHi';		// Date format
-	
+
 	private static $_FI = false; // File Object
 	private static $_ID = '';	 // id of the session
 	private static $_NOW;		 // The time when session started
@@ -18,8 +18,8 @@ class Session {
 	private static $_NAM;		 // The Session cookie id or table name
 	private static $_AM = 		 // Available Session storing  methods
 		array('STANDARD', 'FILE','DB');
-	
-	/** 
+
+	/**
 	 *  We set the session environment variables and
 	 *  define a custom session handler
 	**/
@@ -28,7 +28,7 @@ class Session {
 		//  We convert minutes to seconds in session update and expire.
 		if (!self::$_TTU=round((float)Core::config('sess_update')*60)) self::_error('VARINT','sess_update');
 		if (!self::$_EXP=round((float)Core::config('sess_expire')*60)) self::_error('VARINT','sess_expire');
-		if (!in_array(strtoupper(self::$_MTD=Core::config('sess_method')),self::$_AM)) 
+		if (!in_array(strtoupper(self::$_MTD=Core::config('sess_method')),self::$_AM))
 			self::_error('VAR404','sess_method["'.self::$_MTD.'"]');
 		if (!is_bool(self::$_CYP=Core::config('sess_encrypt'))) self::_error('VARFOR','sess_encrypt');
 		self::$_NAM = Core::config('sess_name');
@@ -65,7 +65,7 @@ class Session {
 		// start session
 		session_start();
 	}
-	
+
 	// opens the file or the db connection
 	public static function open($path, $name){
 		// open and lock the file
@@ -83,7 +83,7 @@ class Session {
 		// read the data
 		return fread(self::$_FI, filesize(SESS.self::$_ID));
 	}
-	
+
 	// writes changes to files or updates/inserts in the db
 	public static function write($id, $data){
 		if (!self::$_FI) return false;
@@ -94,26 +94,26 @@ class Session {
 		// write the data
 		return fwrite(self::$_FI, $data);
 	}
-	
+
 	// closes the file or the db connection
 	public static function close(){
 		// unlock and close the file
 		flock(self::$_FI, LOCK_UN);
 		fclose(self::$_FI);
 		self::$_FI = null;
-		return true;	
+		return true;
 	}
-	
+
 	// called when session_destroy()
 	// eliminates everything from current session.
 	public static function destroy($id){
 		return @unlink(SESS.self::$_ID);
 	}
-	
+
 	// looks for expired sessions and deletes them
 	public static function gc($maxlifetime){
 		$changed = false;
-		// check if the last update value exists and if not, 
+		// check if the last update value exists and if not,
 		// set it to NOW, so the update process runs this time.
 		if (($nextupdate = XML::root()->getAttribute('next')) == ""){
 			XML::root()->setAttribute('next',$nextupdate = self::$_NOW);
@@ -136,8 +136,7 @@ class Session {
 
 	private static function _error($code,$var){
 		Core::error($code,'LIBTIT',array(__CLASS__,$var));
-	}	
+	}
 
 }
-
 ?>

@@ -1,7 +1,7 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 class DB_driver {
-	
+
 	// db connection vars
 	public $username;
 	public $password;
@@ -14,7 +14,7 @@ class DB_driver {
 	public $cache;
 	public $cachedir;
 	public $charset;
-	public $collat;	
+	public $collat;
 	public $port;
 	// public vars
 	public $char_bind	= '?';			// the character used when binding data on queries.
@@ -29,7 +29,7 @@ class DB_driver {
 	protected $DB; 							// database connection object
 	protected $RS;							 	// The query result object.
 	protected $field			= array();	 	// Array that holds the fields to be created
-	protected $data			= array();	 	// Internal temp data cache. 
+	protected $data			= array();	 	// Internal temp data cache.
 	protected $ident_protect	= true;		 	// Protect Identifiers
 	protected $ident_reserve	= array('*');	// Reserved Identifiers
 	protected $field_allowed	= array('NAME','TYPE','LENGTH', 'UNSIGNED','BINARY','DEFAULT','NULL','AUTO_INCREMENT','COMMENT','KEY','PRIMARY_KEY', 'UNIQUE');
@@ -62,7 +62,7 @@ class DB_driver {
 		// initialize the connection if the auto flag is set to true.
 		if (DB::$AUTO===true) $this->init();
 	}
-	
+
 	// initialize the database connection.
 	public function init(){
 		// if an existting connection resource is available there's no need to connect again
@@ -75,19 +75,19 @@ class DB_driver {
 		if (!$this->name) DB::error('DBNAME','LIBTIT',__CLASS__);
 		if (!$this->_set()) DB::error('DBSELE','LIBTIT',array(__CLASS__, $this->name));
 		// set the character set
-		if (!$this->_charset($this->charset, $this->collat)) 
+		if (!$this->_charset($this->charset, $this->collat))
 			DB::error('DBCHAR','LIBTIT',array(__CLASS__,$this->charset,$this->collat));
 		return true;
 	}
-	
+
 	public function connect(){
 		return $this->_connect();
 	}
-	
+
 	public function pconnect(){
 		return $this->_pconnect();
 	}
-	
+
 	public function set(){
 		return $this->_set();
 	}
@@ -109,7 +109,7 @@ class DB_driver {
 		if ($this->cache==true && $this->_is_read($cmd) && ($cache=DB_Cache::read($sql))!==false)
 			return $cache;
 		// if the sql contains bindings, parse them.
-		if ($binds !== false) $sql = $this->_bind($sql, $binds);		
+		if ($binds !== false) $sql = $this->_bind($sql, $binds);
 		// we run the query
 		if (($this->RS = $this->_query($sql, $error))===false) return false;
 		// if enabled, save the query for later debugging.
@@ -119,7 +119,7 @@ class DB_driver {
 		}
 		// if the query was a write type we return the result_write object;
 		if ($this->_is_write($cmd)){
-			// and since we're making changes to the database content, 
+			// and since we're making changes to the database content,
 			// we need to clean our cache. only if the option is enabled ofcourse.
 			if ($this->cache === true && $this->cache_clean == true) DB_Cache::delete();
 			$driver = 'DB_'.$this->driver.'_Result_Write';
@@ -128,8 +128,8 @@ class DB_driver {
 		// load the result driver
 		$driver = 'DB_'.$this->driver.'_Result_Read';
 		$RES = new $driver($this->RS);
-		
-		// if query cached is enabled, we have to instantiate only the result 
+
+		// if query cached is enabled, we have to instantiate only the result
 		// library (without the platform specific driver).
 		// we do this, because we can't serialize the mysql resource variable,
 		// but since we already instantiated the result class, we can assign the
@@ -152,19 +152,19 @@ class DB_driver {
 	public function queries(){
 		return $this->queries;
 	}
-	
+
 	public function query_log(){
 		return $this->query;
 	}
 	/**************
 	 *  DATABASE  *
 	**************/
-	
+
 	// database()
 	public function exists($name){
 		return (!in_array($name, $this->names()))? false : true;
 	}
-	
+
 	// databases()
 	public function count(){
 		return count($this->names());
@@ -190,7 +190,7 @@ class DB_driver {
 		$sql = $this->_add($name);
 		return $this->query($sql);
 	}
-	
+
 	// database_drop
 	public function drop($name){
 		// the database must exist
@@ -198,35 +198,35 @@ class DB_driver {
 		$sql = $this->_drop($name);
 		return $this->query($sql);
 	}
-	
-	
+
+
 	public function optimize(){}
 	public function backup(){}
 
-	
+
 
 	/************
 	 *  TABLES  *
 	 ************/
-	 
+
 	public function table($name, $error=false){
 		if (($str = is_string($name))) {
-			// we check if the table prefix is present and remove it, 
+			// we check if the table prefix is present and remove it,
 			// to prevent errors when other methods call this.
-			if ($this->prefix && strpos($name, $this->prefix)!==false) 
+			if ($this->prefix && strpos($name, $this->prefix)!==false)
 				$name = str_replace($this->prefix,'',$name);
 		}
-		if (!$str || !in_array($this->prefix.$name, $this->table_list(false, $error))) 
+		if (!$str || !in_array($this->prefix.$name, $this->table_list(false, $error)))
 			return $error===true? DB::error('DBTREQ','LIBTIT',__METHOD__) : false;
 		// table found
 		return $this->prefix.$name;
 	}
-	 
+
 	public function tables(){
 		return count($this->table_list());
 	}
-	
-	// list available tables on the database, you can optionally limit 
+
+	// list available tables on the database, you can optionally limit
 	// the list to only the tables that have the previously defined prefix.
 	public function table_list($prefix_limit=false, $error=true){
 		if (isset($this->data['tables'])) return $this->data['tables'];
@@ -242,7 +242,7 @@ class DB_driver {
 		// store data and return it
 		return $this->data['tables'] = $ret;
 	}
-		
+
 	// create table
 	public function table_add($table=false, $ifnotexists=false){
 		if (!is_string($table)) DB::error('DBTREQ','LIBTIT',__METHOD__);
@@ -255,7 +255,7 @@ class DB_driver {
 		$this->field = array();
 		return $qry;
 	}
-	
+
 	// drop table
 	public function table_drop($table=false, $error=true){
 		// check if the table exists and append its prefix if available.
@@ -267,7 +267,7 @@ class DB_driver {
 		unset($this->data['tables'][$key]);
 		return $qry;
 	}
-	
+
 	// rename table
 	public function table_rename($table=false, $new_name=false, $error=true){
 		// check if the table exists and append its prefix if available.
@@ -280,7 +280,7 @@ class DB_driver {
 		$this->data['tables'][$key] = $new_name;
 		return $qry;
 	}
-	
+
 	public function table_data($table=false, $error=true){
 		if (!($table = $this->table($table,$error))) return false;
 		$sql = $this->_field_data($table);
@@ -294,39 +294,39 @@ class DB_driver {
 		}
 		return $arr;
 	}
-		
+
 	public function table_optimize(){}
 	public function table_repair(){}
 
-	
+
 	/*************
 	 *  COLUMNS  *
-	 *************/	
-	
+	 *************/
+
 	public function column_add(){}
-	
+
 	public function column_drop(){}
-	
-	public function column_rename(){}	
-	
-		
+
+	public function column_rename(){}
+
+
 	/**********
 	 *  ROWS  *
 	 **********/
-		
+
 	public function row(){}
-	
+
 	public function rows(){}
-	
+
 	public function row_first(){}
-	
+
 	public function row_last(){}
-	
+
 	public function row_next(){}
-	
+
 	public function row_prev(){}
-	
-	
+
+
 	/************
 	 *  FIELDS  *
 	 ************/
@@ -346,7 +346,7 @@ class DB_driver {
 	// adds a field(s)
 	public function field_add($field=false, $table=false, $after=false){
 		if (!$field) DB::error('DBFREQ','LIBTIT',__METHOD__);
-		// get the fields array and merge it with the main 
+		// get the fields array and merge it with the main
 		if (!($field = $this->_field_check($field))) DB::error('DBFDFO','LIBTIT',__METHOD__);;
 		$this->field = array_merge($this->field, $field);
 		// if no table is specified we're done.
@@ -362,7 +362,7 @@ class DB_driver {
 		foreach ($field as $f) $this->data['fields'][$table] = $f['NAME'];
 		return $qry;
 	}
-	
+
 	// remove a field(s)
 	public function field_drop($field=false, $table=false, $error=true){
 		// check for valid field and table; send error if not found.
@@ -374,7 +374,7 @@ class DB_driver {
 		unset($this->data['fields'][$table][$key]);
 		return $qry;
 	}
-	
+
 	// rename a field
 	public function field_rename($field=false, $field_new=false, $table=false, $error=true){
 		// check for valid field and table;
@@ -401,7 +401,7 @@ class DB_driver {
 		// store data and return it.
 		return $this->data['fields'][$table] = $ret;
 	}
-		
+
 	public function field_data($field=false, $table=false, $error=true){
 		if (!$this->field($field, $table, $error)) return false;
 		$sql = $this->_field_data($table, $field);
@@ -409,11 +409,11 @@ class DB_driver {
 		$arr = $qry->result(true);
 		foreach ($arr[0] as $k=>$v) if($v==''||$v=='NO') unset( $arr[0][$k]);
 		return array_change_key_case($arr[0],CASE_LOWER);
-	}	
-	
+	}
+
 	// we have to unify the fields if they are provided as an array
 	private function _field_check($field, $recursion=null){
-		// if field is string and it isn't a template id we're dealing with 
+		// if field is string and it isn't a template id we're dealing with
 		// a raw sql declaration. but if and templata id found, retrieve structure.
 		if (is_string($field)) {
 			if (($tmp = $this->_field_template($field))) return $recursion? $tmp : array($tmp);
@@ -436,7 +436,7 @@ class DB_driver {
 				{
 					$check = true;
 					if (in_array($ukey, $this->field_required)) $found++;
-					$result[$ukey] = $val; 
+					$result[$ukey] = $val;
 				}
 				// if the value is string and a valid template id
 				// replace it with the key definition array.
@@ -454,14 +454,14 @@ class DB_driver {
 				if (!isset($result['NAME'])) $found++;
 				$result['NAME'] = $recursion;
 			}
-			if (count($this->field_required)!=$found) return false;	
+			if (count($this->field_required)!=$found) return false;
 			// check for valid types
 			if (!in_array(($result['TYPE'] = strtoupper($result['TYPE'])), $this->field_type)) return false;
 			// length must always be an integer.
 			if (!is_numeric($result['LENGTH'])) return false; else $result['LENGTH'] = (int)$result['LENGTH'];
 			// the name shouldn't contain spaces or tabs
 			if (strpos($result['NAME'],' ')!==false) $result['NAME'] = str_replace(' ','',$result['NAME']);
-			if (strpos($result['NAME'],"\t")!==false) $result['NAME'] = str_replace("\t",'',$result['NAME']);	
+			if (strpos($result['NAME'],"\t")!==false) $result['NAME'] = str_replace("\t",'',$result['NAME']);
 		}
 		// we have to determine if the result array has more than one element.
 		// we do this by checking if the first element of the array is actually an array.
@@ -472,10 +472,10 @@ class DB_driver {
 		// return false if the result array has no elements
 		return count($result)==0? false : $didrec? $result : array($result);
 	}
-	
+
 	private function _field_template($field,$key=false){
 		if (
-		 !is_string($field)  || 
+		 !is_string($field)  ||
 		 substr_count($field,'%') < 2 ||
 		 !isset($this->field_template[$id=str_replace('%','',$field)])
 		) return false;
@@ -491,7 +491,7 @@ class DB_driver {
 	public function identifiers_protect($item, $prefix_single = false){
 		return $this->_identifiers_protect($item, $prefix_single);
 	}
- 
+
 	public function escape($str){
 		switch (gettype($str)){
 			case 'string'  : $str = "'".$this->_escape($str)."'"; break;
@@ -500,7 +500,7 @@ class DB_driver {
 		}
 		return $str;
 	}
-		
+
 	// check if provided SQL is write type.
 	private function _is_write($cmd=false){
 		if (!is_string($cmd) || !in_array(strtoupper($cmd), $this->query_wtype)) return false;
@@ -512,7 +512,7 @@ class DB_driver {
 		return true;
 	}
 
-	// Parse Query bindings	
+	// Parse Query bindings
 	private function _bind($sql, $binds){
 		// if we can't find the binding character on the sql, we simply return it unmodified.
 		if (strpos($sql, $this->char_bind) === false) return $sql;
@@ -531,8 +531,8 @@ class DB_driver {
 		}
 		return $res;
 	}
-	
-	
+
+
 	// this function escapes column and table names
 	protected function _identifiers_escape($item){
 		if ($this->char_escape =='') return $item;
@@ -543,13 +543,13 @@ class DB_driver {
 				return preg_replace('/['.$this->char_escape.']+/', $this->char_escape, $str);
 			}
 		}
-		if (strpos($item,'.') !==false) 
+		if (strpos($item,'.') !==false)
 			 $str = $this->char_escape.str_replace('.',$this->char_escape.'.'.$this->char_escape,$item).$this->char_escape;
 		else $str = $this->char_escape.$item.$this->char_escape;
 		// remove duplicates if the user already included escapes
 		return preg_replace('/['.$this->char_escape.']+/', $this->char_escape, $str);
 	}
-	
+
 	// This function takes a column or table name (optionally with an alias) and inserts
 	// the table prefix onto it.  Some logic is necessary in order to deal with
 	// column names that include the path.  Consider a query like this:
@@ -568,7 +568,7 @@ class DB_driver {
 		if (!is_bool($protect_identifiers)) $protect_identifiers = $this->ident_protect;
 		if (is_array($item)){
 			$arr = array();
-			foreach ($item as $key=>$val) 
+			foreach ($item as $key=>$val)
 				$arr[$this->_identifiers_protect($key)] = $this->_identifiers_protect($val);
 			return $arr;
 		}
@@ -584,7 +584,7 @@ class DB_driver {
 		// this is a bugfix for queries using MAX, MIN, ETC
 		// if a parenthesis is found we know that we don't need to escape the data or add a prefix
 		if (strpos($item,'(')!==false) return $item.$alias;
-		// Break the string apart, if it contains periods insert the table prefix 
+		// Break the string apart, if it contains periods insert the table prefix
 		// in the correct location, assuming the period doesn't indicate we're dealing
 		// with an alias. While we're at it, we will escape the components.
 		if (strpos($item, '.')!==false){
@@ -597,7 +597,7 @@ class DB_driver {
 						if (!in_array($val, $this->ident_reserve)) $parts[$key] = $this->_identifiers_escape($val);
 					$item = implode('.', $parts);
 				}
-				return $item.$alias;	
+				return $item.$alias;
 			}
 			// is there a table prefix defined in the config file? if not, do nothing.
 			if ($this->prefix != ''){
@@ -629,6 +629,6 @@ class DB_driver {
 		if ($protect_identifiers===true && !in_array($item, $this->ident_reserve))
 			$item = $this->_identifiers_escape($item);
 		return $item.$alias;
-	}	
+	}
 }
 ?>

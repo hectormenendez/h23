@@ -4,7 +4,7 @@
 		'seconds' => 'segundos',
 
 		'error' => array(
-				// The first two elements define the default error shown 
+				// The first two elements define the default error shown
 				// if the method is called without arguments
 			'DEFTIT' => 'Error',
 			'DEFMSG' => '',
@@ -55,14 +55,13 @@
 	);
 
 	$_CNT['en'] = array(
-		
+
 		'error' => array(
 			'404TIT'  => 'Error <b>404</b>',
 			'404MSG'  => 'El archivo <b>%1%</b> no pudo ser encontrado.',
 			'LIBTIT'  => 'Error en Librería <b>%1%</b>',
 			'RTRFRM'  => 'El formato en la matriz es incorrecto.'
 		)
-		
-	);
 
+	);
 ?>

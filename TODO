@@ -8,16 +8,16 @@ v0.0.686 - 20/Mar/09
 
 ×	{DB_Cache::delete()} is called whenever a write type sql statement is queried, it would
 	be a nice idea to implement this methodology to fix the bug in {Session} where the temp
-	file aren't being deleted. 
+	file aren't being deleted.
 
-×	This is a tough one, {Db_Driver::field_rename()} was removed on this revision due to 
+×	This is a tough one, {Db_Driver::field_rename()} was removed on this revision due to
 	the fact that MySQL versions previous to 5.1, would remove all the info stored in it.
-	I think it's a very important method to ignore it, so in order to re-include it, 
-	a quick check for the field to be empty prior any action could prevent the damage and 
-	still offer the ability. Another approach could be using temporary data to backup and 
-	then after the rename, restore. 
+	I think it's a very important method to ignore it, so in order to re-include it,
+	a quick check for the field to be empty prior any action could prevent the damage and
+	still offer the ability. Another approach could be using temporary data to backup and
+	then after the rename, restore.
 
-×	I don't like the way {DB_Driver::_identifiers_protect} is coded and used. A check has 
+×	I don't like the way {DB_Driver::_identifiers_protect} is coded and used. A check has
 	to be made to simplify this, specially because it makes use of regular expressions and
 	I think there are ways to avoid it.
 
@@ -35,7 +35,7 @@ v0.0.686 - 20/Mar/09
 
 ×	{DB_Driver} is missing some utility methods to develop, (table_backup, optimize, etc.)
 
-×	When the user doesn't specify a database name {DB_Driver} shouldn't allow to use the 
+×	When the user doesn't specify a database name {DB_Driver} shouldn't allow to use the
 	table and field operations. All those methods, must return false.
 
 »	[FIXED] DB_Cache isn't working correctly
@@ -45,8 +45,8 @@ v0.0.686 - 20/Mar/09
 v0.0.670
 ------------------------------------------------------------------------------------------
 
-×	The Session library doesn't seem to be removing correctly the expired sessions, 
-	causing the tmp folder to be flooded with these files. It seems to be a problem with 
+×	The Session library doesn't seem to be removing correctly the expired sessions,
+	causing the tmp folder to be flooded with these files. It seems to be a problem with
 	the XML library since after a quick check, some of the variables weren't obtaining the
 	correct info from the xml. (I think the xml library needs to be rewritten).
 
@@ -56,6 +56,6 @@ v0.0.662
 
 ×	Test the framework in apache for windows prior to vista.
 
-»	[FIXED] Find a secure way to reload the index.php constants so the framework would be 
-	available for the inc files as well. 
-	[NOTE] index.php was rewritten from scratch. 
+»	[FIXED] Find a secure way to reload the index.php constants so the framework would be
+	available for the inc files as well.
+	[NOTE] index.php was rewritten from scratch.

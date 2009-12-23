@@ -6,9 +6,9 @@
 class CSS {
 
 	final public static function _construct(){
-		
+
 	}
-	
+
 	/**
 	 *  ALPHA IN PNG32 Images on IE6
 	**/
@@ -16,7 +16,6 @@ class CSS {
 		if(!$method) $method="scale"; else $method="image";
 		return "background:none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=$method, src='$url');";
 	}
-	
-}
 
+}
 ?>

@@ -1,17 +1,17 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 class Load {
-	
+
 	private static $_VAR = array(); // variables to be extracted inside the loaded files.
-	
+
 	public static function view($name=false, $vars=false, $return=false){
 		return self::_loadfile($name, $vars, $return);
-	} 
-	
+	}
+
 	public static function file($name=false, $vars=false, $return=false){
 		return self::_loadfile($name, $vars, $return, true);
 	}
-		
+
 	/**
 	 * This function is used to load views and files.
 	 * Variables are prefixed with __ to avoid symbol collision with
@@ -53,13 +53,12 @@ class Load {
 		// In order to allow views to be nested within other views, we need to flush
 		// the content back out whenever we are beyond the first level of Output Buffering
 		// So it can be seen and included properly by the first included template and any subsequent ones. Oy!
-	    if(!Core::obflush()) {
-	    	$c = ob_get_contents();
-	    	ob_end_clean();
-	    	Output::append($c);
-	    }
+		if(!Core::obflush()) {
+			$c = ob_get_contents();
+			ob_end_clean();
+			Output::append($c);
+		}
 	}
 
 }
-
 ?>

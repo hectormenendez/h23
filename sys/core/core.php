@@ -1,7 +1,7 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 class Core {
-	
+
 	private static $_LIB;		//  Loaded Libraries
 	private static $_CFG;		//  main config array
 	private static $_CNT;		//  system content array
@@ -10,7 +10,7 @@ class Core {
 	private static $_ELV;		//  Error Levels
 	private static $_CCC; 		//  Current controller object
 	private static $_ERS;		//  Wheter an Error has been sent to the output;
-	/** 
+	/**
 	 *  LIBRARIES AUTOLOADER
 	 *  Whenever a class is called this method triggers
 	 *  and includes the corresponding library.
@@ -24,13 +24,13 @@ class Core {
 		//  force lowercase. (we preserve the original case in the $c var)
 		$class = strtolower($c=$class);
 		//  I don't know if this is really necessary
-		//  but I don't want any library loaded more 
+		//  but I don't want any library loaded more
 		//  than once, and i don't want to use require_once.
 		if (isset(self::$_LIB[$c])) return;
 		$file = $class;
 		//  check if file exists and load it.
-		// if the name contains an underscore it means the lib or helper may be 
-		// under a directory, try loading it that way. 
+		// if the name contains an underscore it means the lib or helper may be
+		// under a directory, try loading it that way.
 		if(($ps=strpos($class,'_'))!==false) $file = substr($class,0,$ps)._SH.substr($class,$ps+1);
 		if (!file_exists(LIBS.$file.EXT)) {
 			// if the library isn't on the libs folder, this may be a helper! try loading it.
@@ -41,14 +41,14 @@ class Core {
 		self::$_LIB[$c] = true;
 		//  If the library has a constructor, call it.
 		//  Note that we are not calling a standard constructor
-		//  but a custom method that acts like one, hence the 
+		//  but a custom method that acts like one, hence the
 		//  use of only one dash.
 		if (method_exists($class,'_construct')) call_user_func(array($class,'_construct'));
 	}
-	
-	/** 
+
+	/**
 	 *  INSTANTIATE THE CURRENT CONTROLLER
-	 *  keep the current controller object in a variable 
+	 *  keep the current controller object in a variable
 	 *  so it can be accessed by the libraries and included files.
 	**/
 	public static function controller($name=false){
@@ -56,9 +56,9 @@ class Core {
 		return self::$_CCC? self::$_CCC : false;
 	}
 
-	/** 
+	/**
 	 *  FLUSH PENDING OUTPUT BUFFERING
-	 *  If the current output buffer is greater 
+	 *  If the current output buffer is greater
 	 *  than initial buffer, flush everything.
 	**/
 	public static function obflush(){
@@ -68,8 +68,8 @@ class Core {
 		}
 		return false;
 	}
-	
-	/** 
+
+	/**
 	 *  SYSTEM CONFIG
 	 *  Returns the system config array or an item in it.
 	**/
@@ -77,16 +77,16 @@ class Core {
 		return self::_getext('_CFG', 'config', $item, __METHOD__);
 	}
 
-	/** 
+	/**
 	 *  SYSTEM GLOBALS
 	 *  Returns the system globals array or an item in it.
 	**/
 	public static function globals($item=false){
 		return self::_getext('_GLB', 'globals', $item, __METHOD__);
 	}
-	
-	/** 
-	 *  SYSTEM CONTENT 
+
+	/**
+	 *  SYSTEM CONTENT
 	 *  Returns the system content array or an item in it.
 	**/
 	public static function content($item=false, $replace=false, $lang=false){
@@ -96,13 +96,13 @@ class Core {
 		//  check if the item exists and return it.
 		if (!$item) return $cnt;
 		if (is_array($item) && count($item)!==2) self::error('ARRNUM','LIBTIT',array(__METHOD__,'item',2));
-		if (is_array($item) && isset($cnt[$item[0]][$item[1]])) 
+		if (is_array($item) && isset($cnt[$item[0]][$item[1]]))
 			return $replace? self::replace($cnt[$item[0]][$item[1]],$replace) : $cnt[$item[0]][$item[1]];
 		if (!isset($cnt[$item])) self::error('VAR404','LIBTIT',array(__METHOD__,'cnt[item]'));
 		return $replace? self::replace($cnt[$item], $replace) : $cnt[$item];
 	}
-	
-	/** 
+
+	/**
 	 *  REPLACING STRINGS
 	 *  Search string for %1%, %2%, etc. and replaces them.
 	 *  @param  string  The object to search
@@ -120,14 +120,14 @@ class Core {
 		}
 		return str_replace('%1%', $rep, $obj);
 	}
-	
-	/** 
+
+	/**
 	 *  CURRENT SYSTEM LANGUAGE
 	 *  This function retrieves the current language or sets a new one.
 	 *  Notes:
-	 *    - If you don't specify a new language the function 
+	 *    - If you don't specify a new language the function
 	 *      will return the current language CODE.
-	 *    - If you specify a valid language the function will 
+	 *    - If you specify a valid language the function will
 	 *      return the language NAME for that code.
 	**/
 	final public static function language($new=false){
@@ -144,7 +144,7 @@ class Core {
 		self::$_LNG = $new;
 		return $lang[$new];
 	}
-	
+
 	/** TODO: THIS NEEDS TO BE REVIEWED... it was coded in a hurry **/
 	public static function debug($backtrace=false, $return=false){
 		// if no argument is sent, get the backtrace now.
@@ -160,7 +160,7 @@ class Core {
 				continue;
 			// obtain the path of the current function and remove the system path and extension for readibility
 			$fl = isset($backtrace[$i]['file'])? str_replace(ROOT,'',$backtrace[$i]['file']) : '';
-			$c = (count($e=explode(_SH,$fl))>=2)? 2:1; 
+			$c = (count($e=explode(_SH,$fl))>=2)? 2:1;
 			$info.= $e[count($e)-$c].($fl?_SH:'').str_ireplace(EXT,'',end($e));
 			$info.= isset($backtrace[$i]['line'])? ':'.$backtrace[$i]['line'].' - ' : '';
 			//if ($return) $info.='<b>';
@@ -192,7 +192,7 @@ class Core {
 		fclose($log);
 		return '';
 	}
-	
+
 	private static function _debug_args($args,$r='',$recur=false){
 		if (!is_array($args)) return $args;
 		$i=0; $c = count($args);
@@ -213,12 +213,12 @@ class Core {
 		if ($recur) $r.=')';
 		return $r;
 	}
-	
+
 	/**
 	 *  CUSTOM ERROR HANDLER
 	**/
 	public static function error($message='DEFMSG', $title='DEFTIT', $var=false, $dg=false, $template='error'){
-		if (!file_exists(TMPL.$template.EXT)) 
+		if (!file_exists(TMPL.$template.EXT))
 			die('<h3>'.__METHOD__.'</h3> The <b>'.$template.'</b> template does not exist.');
 		// obtain the the line where this method was called.
 		$dg = !$dg? debug_backtrace() : $dg;
@@ -260,7 +260,7 @@ class Core {
 			die($buf);
 		}
 	}
-	
+
 	/**
 	 *  METHOD AND CLASS REPLACER
 	**/
@@ -283,14 +283,14 @@ class Core {
 		}
 		return $var;
 	}
-	/** 
+	/**
 	 *  404 ERROR Alias
 	**/
 	public static function error404($file=' '){
 		self::error('404MSG','404TIT',array('',$file), false, 'error_404');
 	}
-	
-	/** 
+
+	/**
 	 *  PHP ERROR HANDLER
 	 *  handles native errors and uses a template to show them.
 	 *  TODO: Merge self:error and self::errorphp into one private method
@@ -341,7 +341,7 @@ class Core {
 			echo $buf;
 		}
 	}
-	
+
 	private static function _getext($var, $path, $item, $method){
 		//  if file hasn't been loaded yet
 		if (!is_array(self::$$var)){
@@ -358,8 +358,8 @@ class Core {
 		if  (!isset($arr["$item"])) self::error('VAR404','LIBTIT',array($method, $var.'['.$item.']'));
 		return $arr[$item];
 	}
-	
-	/** 
+
+	/**
 	 * RETRIEVE THE NAME OF GIVEN VARIABLE
 	 * usage: Core::varname($varname, get_defined_vars())
 	 * if no scope is given the function will search in the globals array only
@@ -368,8 +368,8 @@ class Core {
 	    $old = $var;
 		if (($key=array_search($var=VRND,!$scope?$GLOBALS:$scope))&&(($var=$old)||true)) return $key;
 	}
-	
-	/** 
+
+	/**
 	 *  ECHOES OR RETRIEVES THE CURRENTLY ELAPSED EXECUTION TIME
 	**/
 	public static function benchmark($echo=true){
@@ -377,8 +377,8 @@ class Core {
 		if (!$echo) return $bm;
 		echo ' ',$bm,' ',self::content('seconds');;
 	}
-	
-	/** 
+
+	/**
 	 *  ECHOES OR RETRIEVES THE CURRENT MEMORY USAGE
 	**/
 	public static function memory($echo=true, $peek=false){
@@ -390,11 +390,9 @@ class Core {
 		if (!$echo) return $mm;
 		echo ' ',$mm,$sz;
 	}
-	
+
 	public static function memorypeek($echo=true, $peek=false){
 		self::memory($echo, $peek);
 	}
 }
-
-
 ?>

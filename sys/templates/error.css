@@ -1,7 +1,7 @@
 	.fwErrorWrapper,
 	.fwErrorPHPWrapper	{ z-index:9999; position:relative; font-family:Lucida Console; margin-bottom:1.5em; text-align:center;}
 	.fwErrorMain,
-	.fwErrorPHPMain, 
+	.fwErrorPHPMain,
 	.fwErrorDebug		{ z-index:99999; position:relative; width:45%; margin:0 auto; text-align:left;}
 	.fwErrorMain,
 	.fwErrorPHPMain		{ margin:0 auto; text-align:left; padding:0 20px; }
