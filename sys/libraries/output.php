@@ -105,3 +105,4 @@ class Output {
 		return CACH.md5(URL.BASE.Uri::string());
 	}
 }
+?>

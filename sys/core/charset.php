@@ -27,5 +27,4 @@
 		'us-ascii'	  => array( 'ascii' , 'ascii_general_ci'  ), // US ASCII
 		'utf-8'		  => array( 'utf8'  , 'utf8_general_ci'   )  // UTF-8 Unicode
 	);
-
 ?>

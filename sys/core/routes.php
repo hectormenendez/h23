@@ -3,5 +3,4 @@
 	$_RTR = array();
 	//$_RTR['([a-z\-]+)'] = "main/sect/$1";
 	//$_RTR['servicios/([a-z\-]+)'] = "main/serv/$1";
-
 ?>

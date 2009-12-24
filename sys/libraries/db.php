@@ -2,14 +2,14 @@
 
 class DB {
 
-	public static $AUTO = true; 	//  Auto initialize the db?
+	public static $AUTO = true; 		//  Auto initialize the db?
 	public static $INFO = array();	//  Database Connections settings
 	public static $PORT = 3306;		//  Default connection port.
 	public static $DBUG = false; 	//  Wheter to show database related errors
 	public static $DB;
 
-	private static $_DBS;	// Databases set in the configuration file
-	private static $_CHS;	// The supported charsets Array
+	private static $_DBS;				// Databases set in the configuration file
+	private static $_CHS;				// The supported charsets Array
 	private static $_DRV = array('mysql','sqlite');	 // Available Drivers (first one will be used as default)
 
 	// The charsets that can be autodetected
@@ -105,7 +105,9 @@ class DB {
 		if (!isset(self::$INFO['debug']) || !is_bool(self::$INFO['debug'])) self::$INFO['debug'] = true;
 		if (!isset(self::$INFO['cache']) || !is_bool(self::$INFO['cache'])) self::$INFO['cache'] = false;
 		if (!isset(self::$INFO['cachedir']) || !self::$INFO['cachedir']) self::$INFO['cachedir'] = CACH.'DB/';
-		if (is_writable(self::$INFO['cachedir'])===false) self::error('403DIR','LIBTIT',array(__CLASS__,'cachedir'));
+		if (!file_exists(self::$INFO['cachedir'])) mkdir($INFO['cachedir'],0777);
+		// send an error if the directory isn't writable
+		if (!is_writable(self::$INFO['cachedir'])===false) self::error('403DIR','LIBTIT',array(__CLASS__,'cachedir'));
 		// detect charset and collation if necessary
 		$chset = Core::config('charset');
 		if (!isset(self::$INFO['charset']) || !self::$INFO['charset'])

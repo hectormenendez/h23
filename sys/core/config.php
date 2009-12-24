@@ -1,7 +1,11 @@
 <?php if(!defined('OK')) die('<h1>403</h1>');
 
 $_CFG = array(
-
+	// SHOW ERRORS
+	// if you set this to false, the framework won't show any errors.
+	// you can set an error level such as E_PARSE to show only that kind of error.
+	// if you have finished developing, it is very recommended to set this to false.
+	'errors' => true,
 	// SHOW DEBUG INFO
 	// If you are developing and you encounter an error
 	// do you want the framework to show the backtrace along the message error.
@@ -65,7 +69,21 @@ $_CFG = array(
 	'xml_version' 		=> '1.0',
 	'xml_white_spaces' 	=> false,
 	'xml_format_output' => true,
-
+	// FTP
+	// It is recommended to set a FTP connection pointing to the framework public_html folder
+	// so you can enable file uploads through it. /* NOTE: COMMENT THIS A LITTLE BETTER */
+	// Remember that you can set multiple ftp connections just by adding them as keys. the id
+	// for that connection will be the key name.
+	'ftp' => array(
+		'localhost' => array(
+			'host'  => 'localhost',
+			'user'  => 'dostres',
+			'pass'  => 'Aenehta23',
+			'port'  => 21,
+			'path'  => '~/public_html',
+			'pssv'  => true
+		)
+	),
 	// DATABASES
 	// these are the settings related to database handling.
 	// *  At least one database MUST be configured here. the name is irrelevant.

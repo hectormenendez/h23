@@ -1,5 +1,3 @@
-# robots.txt for http://www.frenoscancun.com
-
 User-agent:*
 Disallow: /app/
 Disallow: /sys/

@@ -2,9 +2,7 @@
 
 class View {
 
-
 	public static function load (){
-
 
 	}
 

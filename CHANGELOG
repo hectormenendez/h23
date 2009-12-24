@@ -1,9 +1,147 @@
-------------------------
-v0.9 - 21/MAR/09 - Rev 1
-------------------------
+v0.0.688 - 14/APR/09 - Rev 10
+------------------------------------------------------------------------------------------
+»	Added the ftp Library
 
-»	Added views and controllers from the latest production site.
+»	Added the ability to use destructors, wich will be run from the shutdown method, and
+	only when declared using a static _destruct method. (if the class is intantiated), it
+	will have a __destructor method automatically available.
 
-»	Upgraded the framework to the latest version (0.0.685)
+»	Added a shutdown function so code can be run after the script finishes running. I added
+	this feature to ensure a way to EVERY error to be redirected to our error_handler.
+	In the past, parse errors weren't being sent to our error handler. Added a TODO entry
+	because i want to enable the user to add custom code to be run when this function is called.
 
-»	Downloaded everything from the production ftp server and added it as Rev 1
+------------------------------------------------------------------------------------------
+v0.0.687 - 03/APR/09 - Rev 8
+------------------------------------------------------------------------------------------
+
+»	I'm currently working on a bash script so the framework can be copied, and set for svn.
+	This way I won't lose time setting up the environment. This should be ready in next rev.
+
+»	The framework now creates default folders on INC and TMP
+
+»	Revised the filesystem checking, it used to be a check per day. but the code was broken
+	due to bad type variables. and paths. now the check happens every 7 days. and even
+	added a way to create an htaccess file if not existent.
+
+»	Minor corrections to the inc.php template, mostly comments
+
+------------------------------------------------------------------------------------------
+v0.0.686 - 20/MAR/09 - Rev 7
+------------------------------------------------------------------------------------------
+
+» 	Ok, here we are again... 4 revisions after! and fixing stuff, I didn't know that svn
+	didn't update the missing files automatically, so I ended up having 2 changelogs and
+	several others no longer used files. I know now that i shouldn't remove those files by
+	hand but instead use svn to mark them as deleted and then commit. but that sounds like
+	a lot of work for a lazy man like me, instead just before commiting, we'll use our bash
+	to find out which files are missing and delete them. Using some pipiing and regex
+	ofcourse!
+
+	bash $: svn delete $( svn status | sed -e '/^!/!d' -e 's/^!\s*//' )
+
+	don't you love unix? i think all is pretty clear. the only confussing part is when sed
+	uses the  "-e" argument to look for a regex. But worry no more, I'll explain.
+	first we have to remove from the staus that doesn't have a ! at the beginning, we do
+	that by using '/regex/!d' and then we use the matches and remove the ! symbol and the
+	spaces after it, using the format 's/regex/replacement/' leaving just the file names
+	ready for "svn delete" them! [^.^]. Oh I love being lazy!
+
+
+------------------------------------------------------------------------------------------
+v0.0.686 - 20/MAR/09 - Rev 6
+------------------------------------------------------------------------------------------
+
+» 	Well it wasn't the last error afterall LOL. but that's what learning is all about.
+	Anyways, turned out that I needed to cleanup after adding. (command "svn cleanup" )
+
+------------------------------------------------------------------------------------------
+v0.0.686 - 20/MAR/09 - Rev 5
+------------------------------------------------------------------------------------------
+
+» 	Didn't know I needed to add newer files, before commit. Hopefully this will be the
+	last error for today. (command "svn add --force * --username hamr23")
+
+------------------------------------------------------------------------------------------
+v0.0.686 - 20/MAR/09 - Rev 4
+------------------------------------------------------------------------------------------
+
+» 	Forgot to update the TODO file in the last revision and took the chance to enhance the
+	format of both CHANGELOG and TODO Files.
+
+»	Removed unnecessary temp files.
+
+------------------------------------------------------------------------------------------
+v0.0.685 - 20/MAR/09 - Rev 3
+------------------------------------------------------------------------------------------
+
+» 	Added {DB_Result_Read} and {DB_Result_Write} instead of {DB_Result}, so different
+	methods can be retrieved depending on the SQL type (read or write). This was done to
+	prevent method overloading.
+
+»	{File} Helper Revised, and added recursive file deletion via {File::rmdir()} or
+	{File::delete()}
+
+»	{DB_Cache} Revised, bugtested and fixed.
+
+»	{DB_Driver} table and field management methods revised.
+
+» 	{DB_Driver::query} can now return false when query isn't valid.
+
+»	Added the possibility to use templates for field declarations.
+
+»	Added {DB_Drive::version()} so the driver version is retrieved.
+
+»	Naming convention change for the database library.
+
+»	Removed Database Renaming {DB_Driver::edit()}, since lacks of support in MySQL 5.0<.
+	Added a TODO entry, so a manual alternative to this action is found.
+
+»	The {DB_Result::__construct()} method was being declared on the driver specific class,
+	moved it to the main class, so the developing path is a little clearer.
+
+»	Fixed BUG where the DB_Result->array wasn't being assigned correctly.
+
+»	Code in  version control once again.
+
+------------------------------------------------------------------------------------------
+v0.0.673 - 27/FEB/09
+------------------------------------------------------------------------------------------
+
+»	Created the DB_Cache library. (untested)
+
+»	Moved Arrays library to helpers.
+
+»	Added the File helper.
+
+»	Fixed some bugs in the debug method, where the root path wasn't being used correctly
+	sending a misterious type convertion warning, since the FW wasn't taking into account
+	when trying to log functions sending object as arguments.
+
+------------------------------------------------------------------------------------------
+v0.0.670 - 15/DEC/08
+------------------------------------------------------------------------------------------
+
+»	Changed the way dynamic includes work, now a template is used so the index file can
+	the include helper with the correct path for the framework to be initialized. No more
+	looking for the ROOT path by placing a temporary file.
+
+»	Added Cache management to the inc helper.
+
+»	Added Security to the inc helper, if a malicious user would find out the address it
+	may be possible to get information about the server from it. now a 403 message is
+	shown if the file is accessed directly.
+
+»	Fixed some compatibilities issues with windows servers' paths. a constant was added
+	users wants to add a path the correct slash would be used. also updated the xml
+	library with this constant.
+
+------------------------------------------------------------------------------------------
+v0.0.662 - 11/DEC/08
+------------------------------------------------------------------------------------------
+»	Fixed a bug (0001) where the framework couldn't set the correct path in apache for
+
+»	Added version control
+
+»	secured the way filechk works, making it more secure, since it doesn't shows the full
+	path anymore when a directory isn't found.

@@ -163,11 +163,9 @@ class Core {
 			$c = (count($e=explode(_SH,$fl))>=2)? 2:1;
 			$info.= $e[count($e)-$c].($fl?_SH:'').str_ireplace(EXT,'',end($e));
 			$info.= isset($backtrace[$i]['line'])? ':'.$backtrace[$i]['line'].' - ' : '';
-			//if ($return) $info.='<b>';
 			$info.= isset($backtrace[$i]['class'])? $backtrace[$i]['class'] : '';
 			$info.= isset($backtrace[$i]['type'])? $backtrace[$i]['type'] : '';
 			$info.= isset($backtrace[$i]['function'])? $backtrace[$i]['function'] : '';
-			//if ($return) $info.= '</b>';
 			// if the function or method has arguments procede to show them
 			if (isset($backtrace[$i]['args']) && count($backtrace[$i]['args'])>=1){
 				$info.= '('.self::_debug_args($backtrace[$i]['args']).')';
@@ -291,11 +289,42 @@ class Core {
 	}
 
 	/**
+	 *  SHUTDOWN HANDLER
+	 *  perform this at the end of the script.
+	 *  Right now I'm using this to catch parse errors.
+	**/
+	public static function shutdown(){
+		// if there's an error waiting to be sent, redirect it to our error handler.
+		if (($err = error_get_last()) != false){
+			switch ($err['type']){
+				case E_ERROR:
+				case E_PARSE:
+				case E_CORE_ERROR:
+				case E_CORE_WARNING:
+				case E_COMPILE_ERROR:
+				case E_COMPILE_WARNING:
+					self::errorphp($err['type'], $err['message'], $err['file'], $err['line']);
+				break;
+			}
+		}
+		// PUT HERE THE SCRIPT FOR RUNNING QUEUED SHUTDOWN FUNCTIONS
+
+		// we iterate through loaded libraries and unset them,
+		// thus triggering their destructors.
+		foreach(array_reverse(self::$_LIB) as $class=>$x){
+			if (method_exists($class,'_destruct')) call_user_func(array($class,'_destruct'));
+		}
+
+		return;
+	}
+	/**
 	 *  PHP ERROR HANDLER
 	 *  handles native errors and uses a template to show them.
 	 *  TODO: Merge self:error and self::errorphp into one private method
 	**/
-	public static function errorphp($severity, $message, $path, $line) {
+	public static function errorphp($type, $message, $file, $line) {
+		// run only if config error == true or the error level equals the config
+		if (error_reporting()==0 || ($err=self::config('errors'))!==true && $err!=$type) return;
 		//  Define Error levels
 		if (!self::$_ELV) self::$_ELV = array(
 			E_ERROR				=>	'Error',
@@ -313,15 +342,15 @@ class Core {
 		);
 		if (!file_exists(TMPL.'error_php'.EXT)) self::error();
 		//  Set the severity level from static Error level array if exists.
-		$severity = !isset(self::$_ELV[$severity])? $severity : self::$_ELV[$severity];
+		$type = !isset(self::$_ELV[$type])? $type : self::$_ELV[$type];
 		//  We hide the full server path for added security
-		if (strpos($path,_SH)!==false) {
-			$x    = explode(_SH, $path);
-			$path = $x[count($x)-2]._SH.end($x);
+		if (strpos($file,_SH)!==false) {
+			$x    = explode(_SH, $file);
+			$file = $x[count($x)-2]._SH.end($x);
 		}
 		// if the error is generated in an external file (AKA included jx, cssx)
 		// just print out the error without templates
-		if (_EX) echo $severity,"\n\t",strip_tags($message),"\n\t",$path,'(',$line,")\n";
+		if (_EX) echo $type,"\n\t",strip_tags($message),"\n\t",$file,'(',$line,")\n";
 		else {
 			//  Flush output buffers (if any) before start buffering this one.
 			self::obflush();
@@ -340,6 +369,7 @@ class Core {
 			ob_end_clean();
 			echo $buf;
 		}
+		return true;
 	}
 
 	private static function _getext($var, $path, $item, $method){

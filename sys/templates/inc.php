@@ -1,7 +1,11 @@
 <?php if(!isset($_TYPE)) die('<h1>403</h1>');
+	//
 	// The purpose of this SELF-GENERATED file is to set the headers for the included files,
 	// and to make the framework available for these.
-	// DO NOT MODIFY THIS FILE UNLESS YOU KNOW WHAT YOU'RE DOING.
+	// DO NOT MODIFY THIS FILE
+	//
+	// If you want to make modifications, edit the file located on your System Templates Folder
+	//
 	// NOTE: If you mess up, and modified this file and now your dynamic includes aren't working right
 	//       just delete this file, so it can be generated again with the correct info.
 

@@ -93,7 +93,5 @@ class File {
 		@chmod($dir,$chmod);
 		return true;
 	}
-
-
 }
 ?>

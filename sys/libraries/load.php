@@ -59,6 +59,5 @@ class Load {
 			Output::append($c);
 		}
 	}
-
 }
 ?>

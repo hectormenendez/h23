@@ -50,7 +50,21 @@
 			'DBTBRN' => 'Debe especificar el nombre de una tabla existente y el nuevo nombre que se le asignara.',
 			'DBTBNO' => 'La tabla <b>%2%</b> no existe en la base de datos.',
 			'DBFDFO' => 'El formato de declaración del campo es incorrecto.',
-			'DBFDNO' => 'El campo <b>%2%</b> no existe en la base de datos.'
+			'DBFDNO' => 'El campo <b>%2%</b> no existe en la base de datos.',
+			'FTPINV' => 'Parametros inválidos para la creación de una conexión.',
+			'FTPUSR' => 'Un nombre de usuario es requerido para la creación de una conexión.',
+			'FTPCNN' => 'No fue posible conectarse al servidor.',
+			'FTPBLP' => 'No fue posible conectarse al servidor, credenciales incorrectas.',
+			'FTPNID' => 'No existe una conexión activa.',
+			'FTPLGC' => 'Solo el método FTP::login puede iniciar esta clase.',
+			'FTPATH' => 'Debe especificar una ruta válida.',
+			'FTPNCD' => 'la ruta <b>%2%</b> no existe.',
+			'FTPMKD' => 'El directorio <b>%2%</b> no pudo ser creado. verifique la ruta o si tiene los permisos correctos.',
+			'FTPCHM' => 'No fue posible cambiar los permisos de <b>%2%</b>.',
+			'FTPRMD' => 'No fue posible eliminar el directorio <b>%2%</b>.',
+			'FTPRMF' => 'No fue posible eliminar el archivo <b>%2%</b>.',
+			'FTPNMV' => 'No fue posible mover usando la ruta especificada.',
+			'FTPUPL' => 'No fue posible transferir el archivo <b>%2%</b>.'
 		)
 	);
 
